@@ -1,0 +1,84 @@
+---
+import uploadSrc from '../assets/upload-step.svg?url';
+import optimizeSrc from '../assets/we-optimize-step.svg?url';
+import exploreSrc from '../assets/clients-explore-step.svg?url';
+
+const locale = Astro.currentLocale ?? 'en';
+const isBg = locale === 'bg';
+
+const steps = isBg ? [
+  {
+    number: '1.',
+    title: 'Качване',
+    body: 'Изпратете вашите 3D файлове и проектно задание през нашата платформа.',
+    icon: uploadSrc,
+    iconAlt: 'Икона на 3D файл',
+  },
+  {
+    number: '2.',
+    title: 'Ние оптимизираме',
+    body: 'Нашият екип подготвя и оптимизира сцената за максимално визуално качество.',
+    icon: optimizeSrc,
+    iconAlt: 'Икона за оптимизация',
+  },
+  {
+    number: '3.',
+    title: 'Клиентите разглеждат',
+    body: 'Споделете линка — клиентите разглеждат чрез VR, AR или уеб браузър.',
+    icon: exploreSrc,
+    iconAlt: 'Икона на VR очила',
+  },
+] : [
+  {
+    number: '1.',
+    title: 'Upload',
+    body: 'Submit your 3D files and project brief through our platform.',
+    icon: uploadSrc,
+    iconAlt: '3D model file icon',
+  },
+  {
+    number: '2.',
+    title: 'We Optimize',
+    body: 'Our team prepares and optimizes your scene for peak visual fidelity.',
+    icon: optimizeSrc,
+    iconAlt: 'Magic wand optimization icon',
+  },
+  {
+    number: '3.',
+    title: 'Clients Explore',
+    body: 'Share the link — clients explore in VR, AR, or web browser.',
+    icon: exploreSrc,
+    iconAlt: 'VR safety goggles icon',
+  },
+];
+---
+
+<section id="how-it-works" class="py-20 lg:py-28">
+  <div class="site-container">
+    <!-- Header -->
+    <div class="mb-16 lg:mb-24 text-center">
+      <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] mb-4 tracking-[-1.2px]">{isBg ? 'Как работи' : 'How it Works'}</h2>
+      <p class="font-onest font-light text-[#CDD4E4] text-base lg:text-lg max-w-lg mx-auto">
+        {isBg
+          ? 'От пристигане до потапяне — осигуряваме безпроблемен преход от физическия към виртуалния свят.'
+          : 'From arrival to immersion, we ensure a seamless transition from the physical to the virtual realm.'}
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {steps.map(step => (
+        <div class="flex flex-col items-center gap-6 text-center">
+          <!-- Icon image -->
+          <img src={step.icon} alt={step.iconAlt} class="w-24 h-24 shrink-0" loading="lazy" />
+          <div>
+            <h3 class="font-onest font-bold text-[#E0E2EB] text-2xl mb-4">
+              {step.number} {step.title}
+            </h3>
+            <p class="font-manrope font-light text-[#C5C6CE] text-base leading-relaxed">{step.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

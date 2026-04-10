@@ -1,0 +1,280 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const locale    = Astro.currentLocale ?? 'en';
+const rawPath   = Astro.url.pathname;
+const canonPath = rawPath.replace(/^\/bg\/?/, '/') || '/';
+const enUrl     = getRelativeLocaleUrl('en', canonPath);
+const bgUrl     = getRelativeLocaleUrl('bg', canonPath);
+const homeUrl   = getRelativeLocaleUrl(locale, '/');
+---
+
+<!-- Fixed header — id used by global.css intro-gating -->
+<header
+  id="site-header"
+  class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-md"
+  style="background-color: transparent; border-bottom: 1px solid transparent; transition: background-color 0.4s ease, border-color 0.4s ease;"
+>
+  <div class="site-container h-full flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href={homeUrl} class="shrink-0 flex items-center" aria-label="STEPIN">
+      <svg class="h-[34px] w-auto" viewBox="0 0 99 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M81.6035 28.9508V8.12109H84.8738L95.7454 25.4743V8.12109H98.3087V28.9508H95.0973L84.1667 11.6565V28.9508H81.6035Z" fill="#ECEFF9"/>
+        <path d="M76.2148 28.9508V8.12109H78.7781V28.9508H76.2148Z" fill="#ECEFF9"/>
+        <path d="M56.8789 28.951V8.0918H65.6292C67.2595 8.0918 68.6933 8.32749 69.9307 8.79889C71.1681 9.25064 72.1404 10.0167 72.8475 11.0969C73.5546 12.1576 73.9081 13.6209 73.9081 15.4868C73.9081 17.1956 73.5349 18.6196 72.7886 19.7588C72.0422 20.8784 71.0306 21.7131 69.7539 22.2631C68.4772 22.813 67.0336 23.088 65.423 23.088H62.2116V28.951H56.8789ZM62.2116 18.3446H65.423C66.4443 18.3446 67.2398 18.0991 67.8094 17.6081C68.379 17.117 68.6638 16.4198 68.6638 15.5162C68.6638 14.711 68.4085 14.1021 67.8978 13.6896C67.4068 13.2575 66.572 13.0414 65.3935 13.0414H62.2116V18.3446Z" fill="#ECEFF9"/>
+        <path d="M39.8477 28.951V8.0918H55.5805V13.0414H45.1803V16.2233H53.7539V20.9373H45.1803V24.0308H55.5805V28.951H39.8477Z" fill="#ECEFF9"/>
+        <path d="M27.1597 28.951V13.0414H20.9727V8.0918H38.709V13.0414H32.4924V28.951H27.1597Z" fill="#ECEFF9"/>
+        <path d="M15.2819 3.8258V30.3739L7.22266 34.1665V0.0332031L15.2819 3.8258ZM8.1708 32.6721L14.3338 29.7721V4.42718L8.1708 1.52718V32.6721Z" fill="#434854"/>
+        <path d="M8.62794 28.486C7.15676 28.0918 5.85774 27.47 4.73088 26.6207C3.62287 25.7764 2.8081 24.7055 2.28654 23.4078C1.78384 22.1152 1.6713 20.6114 1.94893 18.8962L7.09805 20.276C7.08271 20.8613 7.20686 21.3788 7.47048 21.8284C7.73937 22.2583 8.11682 22.6226 8.60283 22.9213C9.1077 23.225 9.67135 23.4602 10.2938 23.627C10.671 23.7281 11.0682 23.7924 11.4853 23.82C11.9025 23.8475 12.272 23.7887 12.594 23.6433C12.9348 23.5031 13.1604 23.2267 13.271 22.8142C13.3499 22.5196 13.3282 22.2611 13.2058 22.0388C13.1076 21.802 12.9233 21.5842 12.6531 21.3855C12.4071 21.1722 12.0803 20.9583 11.6728 20.7438C11.5136 20.6591 11.3449 20.5718 11.1668 20.482C11.0076 20.3972 10.8484 20.3124 10.6891 20.2276C10.5299 20.1429 10.3613 20.0556 10.1832 19.9658C9.27914 19.4919 8.42073 18.9988 7.60793 18.4862C6.8004 17.9541 6.12029 17.3613 5.5676 16.7079C5.01491 16.0546 4.64579 15.282 4.46023 14.3901C4.27467 13.4983 4.34242 12.4533 4.66348 11.2551C4.95822 10.1551 5.3942 9.28244 5.97143 8.6371C6.55392 7.97211 7.21691 7.49712 7.96038 7.21212C8.70912 6.90747 9.48287 6.73585 10.2816 6.69723C11.0804 6.65862 11.8486 6.69606 12.5864 6.80953C13.3295 6.90337 13.9839 7.02609 14.5497 7.17771C15.9455 7.55169 17.0978 8.15519 18.0066 8.9882C18.9207 9.80157 19.559 10.8147 19.9213 12.0276C20.3025 13.2455 20.3617 14.6088 20.099 16.1174L15.1479 14.7907C15.2072 14.3434 15.1348 13.9345 14.9308 13.5641C14.7321 13.174 14.4275 12.8397 14.0169 12.5613C13.6305 12.2683 13.1449 12.0434 12.5602 11.8868C12.2207 11.7958 11.8921 11.7394 11.5746 11.7174C11.257 11.6955 10.9693 11.7131 10.7113 11.7703C10.4723 11.8326 10.2631 11.9344 10.0837 12.0758C9.90427 12.2172 9.783 12.4058 9.71984 12.6415C9.63562 12.9558 9.67774 13.2513 9.84618 13.528C10.0335 13.8098 10.3324 14.0899 10.743 14.3683C11.1724 14.6518 11.7029 14.9729 12.3346 15.3316C12.6342 15.4961 12.9243 15.6581 13.205 15.8175C13.491 15.9573 13.7744 16.1069 14.0551 16.2663C14.8324 16.6851 15.5452 17.1182 16.1935 17.5656C16.8606 18.0181 17.4125 18.5238 17.8489 19.0829C18.3042 19.647 18.5975 20.3256 18.7286 21.1186C18.865 21.8921 18.7885 22.8189 18.499 23.8993C18.1675 25.1368 17.6595 26.127 16.9753 26.87C16.2963 27.5933 15.4991 28.1165 14.5837 28.4397C13.6683 28.7628 12.6954 28.9232 11.665 28.9208C10.6399 28.8988 9.62758 28.7538 8.62794 28.486Z" fill="#A3BDFF"/>
+        <rect x="8.16992" y="4.77441" width="5.68889" height="24.1778" fill="url(#hdr-grad-0)"/>
+        <rect opacity="0.7" x="8.16992" y="4.77441" width="4.26667" height="24.1778" fill="url(#hdr-grad-1)"/>
+        <path d="M15.2819 3.76111V6.96019H14.3338V4.36482L8.1708 1.48843V32.7111L14.3338 29.8347V28.6227H15.2819V30.4389L7.22266 34.2V0L15.2819 3.76111Z" fill="url(#hdr-grad-2)"/>
+        <defs>
+          <linearGradient id="hdr-grad-0" x1="8.57627" y1="15.4411" x2="13.8588" y2="15.4411" gradientUnits="userSpaceOnUse">
+            <stop/><stop offset="1" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="hdr-grad-1" x1="8.47468" y1="15.4411" x2="12.4366" y2="15.4411" gradientUnits="userSpaceOnUse">
+            <stop/><stop offset="1" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="hdr-grad-2" x1="8.4083" y1="15.6778" x2="14.3342" y2="15.6778" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#767F94"/><stop offset="1" stop-color="#434854"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-4">
+      <a href={`${homeUrl}#application`}
+         class="font-onest font-medium text-[14px] leading-5 text-[#ECEFF9] hover:opacity-70 transition-opacity">
+        {locale === 'bg' ? 'Приложение' : 'Application'}
+      </a>
+      <a href={`${homeUrl}#features`}
+         class="font-onest font-medium text-[14px] leading-5 text-[#ECEFF9] hover:opacity-70 transition-opacity">
+        {locale === 'bg' ? 'Функции' : 'Features'}
+      </a>
+      <a href={`${homeUrl}#how-it-works`}
+         class="font-onest font-medium text-[14px] leading-5 text-[#ECEFF9] hover:opacity-70 transition-opacity">
+        {locale === 'bg' ? 'Как работи' : 'How it works'}
+      </a>
+
+      <!-- STEP IN Gallery — outlined pill -->
+      <a href={getRelativeLocaleUrl(locale, '/gallery')}
+         class="font-onest font-medium text-[14px] leading-5 text-[#ECEFF9] h-11 px-[22px] rounded-full border border-[#ECEFF9] bg-[rgba(17,17,17,0.5)] backdrop-blur-sm flex items-center hover:bg-[rgba(17,17,17,0.7)] transition-colors">
+        {locale === 'bg' ? 'STEP IN Галерия' : 'STEP IN Gallery'}
+      </a>
+
+      <!-- Request a Demo — white filled pill -->
+      <a href={`${homeUrl}#contact`}
+         class="font-onest font-medium text-[14px] leading-5 text-[#141414] h-11 px-[22px] rounded-full bg-white flex items-center hover:bg-white/90 transition-colors">
+        {locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}
+      </a>
+
+      <!-- Language switcher -->
+      <div class="relative" id="lang-switcher">
+        <button
+          id="lang-btn"
+          class="flex items-center gap-[4px] bg-[rgba(237,237,237,0.1)] rounded-[12px] px-[8px] py-[4px] hover:bg-[rgba(237,237,237,0.15)] transition-colors"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+        >
+          {locale === 'bg' ? (
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+              <rect width="16" height="4" fill="white"/>
+              <rect y="4" width="16" height="4" fill="#00966E"/>
+              <rect y="8" width="16" height="4" fill="#D62612"/>
+            </svg>
+          ) : (
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+              <rect width="16" height="12" fill="#B22234"/>
+              <rect y="0.923" width="16" height="0.923" fill="white"/>
+              <rect y="2.769" width="16" height="0.923" fill="white"/>
+              <rect y="4.615" width="16" height="0.923" fill="white"/>
+              <rect y="6.462" width="16" height="0.923" fill="white"/>
+              <rect y="8.308" width="16" height="0.923" fill="white"/>
+              <rect y="10.154" width="16" height="0.923" fill="white"/>
+              <rect width="7" height="6.462" fill="#3C3B6E"/>
+            </svg>
+          )}
+          <span class="font-onest font-medium text-[12px] leading-4 text-[#EDEDED]">
+            {locale === 'bg' ? 'BG' : 'EN'}
+          </span>
+          <svg id="lang-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" class="transition-transform duration-200 text-[#EDEDED]">
+            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown -->
+        <ul
+          id="lang-dropdown"
+          role="listbox"
+          class="absolute right-0 top-full mt-2 w-[140px] bg-[#191C22] border border-white/10 rounded-[12px] overflow-hidden shadow-xl hidden z-50"
+        >
+          <li>
+            <a href={enUrl} role="option" aria-selected={locale === 'en'}
+               class="flex items-center gap-2 px-3 py-2.5 font-onest text-[12px] transition-colors hover:bg-white/5 text-[#EDEDED]">
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+                <rect width="16" height="12" fill="#B22234"/>
+                <rect y="0.923" width="16" height="0.923" fill="white"/>
+                <rect y="2.769" width="16" height="0.923" fill="white"/>
+                <rect y="4.615" width="16" height="0.923" fill="white"/>
+                <rect y="6.462" width="16" height="0.923" fill="white"/>
+                <rect y="8.308" width="16" height="0.923" fill="white"/>
+                <rect y="10.154" width="16" height="0.923" fill="white"/>
+                <rect width="7" height="6.462" fill="#3C3B6E"/>
+              </svg>
+              English
+              {locale === 'en' && <span class="ml-auto text-[#A2BCFF]">✓</span>}
+            </a>
+          </li>
+          <li>
+            <a href={bgUrl} role="option" aria-selected={locale === 'bg'}
+               class="flex items-center gap-2 px-3 py-2.5 font-onest text-[12px] transition-colors hover:bg-white/5 text-[#CDD4E4]">
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+                <rect width="16" height="4" fill="white"/>
+                <rect y="4" width="16" height="4" fill="#00966E"/>
+                <rect y="8" width="16" height="4" fill="#D62612"/>
+              </svg>
+              Български
+              {locale === 'bg' && <span class="ml-auto text-[#A2BCFF]">✓</span>}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile: hamburger -->
+    <button
+      id="mobile-menu-toggle"
+      class="lg:hidden p-2 text-[#ECEFF9]"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <svg id="icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+      <svg id="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-white/5 bg-black">
+    <div class="site-container py-4 flex flex-col gap-1 items-center">
+      <a href={`${homeUrl}#application`}  class="w-full text-center font-onest font-medium text-sm py-3 px-2 text-[#ECEFF9] hover:bg-white/5 rounded-lg transition-colors">{locale === 'bg' ? 'Приложение' : 'Application'}</a>
+      <a href={`${homeUrl}#features`}     class="w-full text-center font-onest font-medium text-sm py-3 px-2 text-[#ECEFF9] hover:bg-white/5 rounded-lg transition-colors">{locale === 'bg' ? 'Функции' : 'Features'}</a>
+      <a href={`${homeUrl}#how-it-works`} class="w-full text-center font-onest font-medium text-sm py-3 px-2 text-[#ECEFF9] hover:bg-white/5 rounded-lg transition-colors">{locale === 'bg' ? 'Как работи' : 'How it works'}</a>
+      <div class="w-full pt-1">
+        <a href={getRelativeLocaleUrl(locale, '/gallery')}
+           class="font-onest font-medium text-sm text-[#ECEFF9] border border-[#ECEFF9] h-11 rounded-full flex items-center justify-center hover:bg-white/5 transition-colors">
+          {locale === 'bg' ? 'STEP IN Галерия' : 'STEP IN Gallery'}
+        </a>
+      </div>
+      <div class="w-full pt-1">
+        <a href={`${homeUrl}#contact`} class="font-onest font-medium text-sm text-[#141414] bg-white h-11 rounded-full flex items-center justify-center hover:bg-white/90 transition-colors">{locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}</a>
+      </div>
+      <div class="pt-3 pb-1 flex items-center gap-3">
+        <a href={enUrl} class="flex items-center gap-2 px-3 py-2 rounded-lg font-onest font-medium text-sm text-[#ECEFF9] hover:bg-white/5 transition-colors">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+            <rect width="16" height="12" fill="#B22234"/>
+            <rect y="0.923" width="16" height="0.923" fill="white"/>
+            <rect y="2.769" width="16" height="0.923" fill="white"/>
+            <rect y="4.615" width="16" height="0.923" fill="white"/>
+            <rect y="6.462" width="16" height="0.923" fill="white"/>
+            <rect y="8.308" width="16" height="0.923" fill="white"/>
+            <rect y="10.154" width="16" height="0.923" fill="white"/>
+            <rect width="7" height="6.462" fill="#3C3B6E"/>
+          </svg>
+          EN
+          {locale === 'en' && <span class="ml-1 text-[#A2BCFF] text-xs">✓</span>}
+        </a>
+        <a href={bgUrl} class="flex items-center gap-2 px-3 py-2 rounded-lg font-onest font-medium text-sm text-[#ECEFF9] hover:bg-white/5 transition-colors">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+            <rect width="16" height="4" fill="white"/>
+            <rect y="4" width="16" height="4" fill="#00966E"/>
+            <rect y="8" width="16" height="4" fill="#D62612"/>
+          </svg>
+          BG
+          {locale === 'bg' && <span class="ml-1 text-[#A2BCFF] text-xs">✓</span>}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer -->
+<div class="h-16"></div>
+
+<script>
+  let ctrl = new AbortController();
+
+  function setupHeader() {
+    ctrl.abort();
+    ctrl = new AbortController();
+    const { signal } = ctrl;
+
+    // Mobile menu
+    const toggle    = document.getElementById('mobile-menu-toggle');
+    const menu      = document.getElementById('mobile-menu');
+    const iconOpen  = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    toggle?.addEventListener('click', () => {
+      const isOpen = !menu?.classList.contains('hidden');
+      menu?.classList.toggle('hidden', isOpen);
+      iconOpen?.classList.toggle('hidden', !isOpen);
+      iconClose?.classList.toggle('hidden', isOpen);
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    }, { signal });
+
+    menu?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu!.classList.add('hidden');
+        iconOpen?.classList.remove('hidden');
+        iconClose?.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
+      }, { signal });
+    });
+
+    // Scroll-fill behaviour
+    const header = document.getElementById('site-header');
+    function applyScroll() {
+      if (!header) return;
+      if (window.scrollY > 10) {
+        header.style.backgroundColor = 'rgba(0,0,0,0.82)';
+        header.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+      } else {
+        header.style.backgroundColor = 'transparent';
+        header.style.borderBottomColor = 'transparent';
+      }
+    }
+    applyScroll(); // set correct state immediately on each navigation
+    window.addEventListener('scroll', applyScroll, { passive: true, signal });
+
+    // Language switcher
+    const langBtn      = document.getElementById('lang-btn');
+    const langDropdown = document.getElementById('lang-dropdown');
+    const langChevron  = document.getElementById('lang-chevron');
+
+    langBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !langDropdown?.classList.contains('hidden');
+      langDropdown?.classList.toggle('hidden', isOpen);
+      langChevron?.classList.toggle('rotate-180', !isOpen);
+      langBtn.setAttribute('aria-expanded', String(!isOpen));
+    }, { signal });
+
+    document.addEventListener('click', () => {
+      langDropdown?.classList.add('hidden');
+      langChevron?.classList.remove('rotate-180');
+      langBtn?.setAttribute('aria-expanded', 'false');
+    }, { signal });
+  }
+
+  document.addEventListener('astro:page-load', setupHeader);
+</script>

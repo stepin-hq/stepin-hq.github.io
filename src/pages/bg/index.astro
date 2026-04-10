@@ -1,0 +1,31 @@
+---
+/**
+ * Bulgarian homepage — /bg/
+ *
+ * All components below are currently rendering English content.
+ * To translate: pass a `lang="bg"` prop to each component and add
+ * Bulgarian copy inside them behind that prop check.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import WhatIsStepin from '../../components/WhatIsStepin.astro';
+import Workflow from '../../components/Workflow.astro';
+import Features from '../../components/Features.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<BaseLayout title="STEP IN — Потапящи VR разходки за недвижими имоти и дизайн" theme="dark">
+  <Header theme="dark" />
+  <main>
+    <Hero />
+    <WhatIsStepin />
+    <Workflow />
+    <Features />
+    <HowItWorks />
+    <ContactCTA />
+  </main>
+  <Footer theme="dark" />
+</BaseLayout>

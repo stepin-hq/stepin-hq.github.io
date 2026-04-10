@@ -1,0 +1,448 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryHeader from '../components/GalleryHeader.astro';
+import Footer from '../components/Footer.astro';
+
+// Figma asset URLs — expire 7 days from design fetch
+const imgProjectionWalkthroughs   = 'https://www.figma.com/api/mcp/asset/bf0ae460-6e38-4dcb-97a5-de13b6529907';
+const imgCuratedInteriorFurniture = 'https://www.figma.com/api/mcp/asset/ac113e5d-e39e-4202-93fd-676117b1c347';
+const imgVrWalkthroughSessions    = 'https://www.figma.com/api/mcp/asset/1ec09e91-118f-4352-939e-899945f3dcad';
+const imgMeridian    = 'https://www.figma.com/api/mcp/asset/f15f3666-f259-4097-86a2-0f36a7b678ff';
+const imgAtelier     = 'https://www.figma.com/api/mcp/asset/b48e4bb7-da10-40cb-a116-9bc019ab9e72';
+const imgNomadCraft  = 'https://www.figma.com/api/mcp/asset/f81792c4-a268-43f3-bb1c-cf5ec30f64dc';
+
+const services = [
+  {
+    img: imgProjectionWalkthroughs,
+    title: 'Projection Walkthroughs',
+    desc: 'Walk through projected floor plans at scale. See spatial layouts come alive with high-precision projectors in our showroom studio.',
+  },
+  {
+    img: imgCuratedInteriorFurniture,
+    title: 'Curated Interior & Furniture',
+    desc: 'Browse a curated catalog of premium furniture — see pieces in context, touch materials, and make confident decisions before you commit.',
+  },
+  {
+    img: imgVrWalkthroughSessions,
+    title: 'VR Walkthrough Sessions',
+    desc: "Book a private session in our showroom. Walk through your future space at full scale in immersive VR — feel every detail before it's built.",
+  },
+];
+
+const brands = [
+  { logo: imgMeridian,   name: 'Meridian Furniture USA', desc: 'Handcrafted modular sofas in premium leathers and textiles.' },
+  { logo: imgAtelier,    name: 'Atelier Cucine',          desc: 'Bespoke kitchen systems with precision German engineering.' },
+  { logo: imgNomadCraft, name: 'Nomad Craft Atelier',     desc: 'Sculptural dining and lounge furniture from sustainably sourced hardwoods.' },
+];
+---
+
+<BaseLayout title="Gallery — STEP IN" theme="gallery">
+  <GalleryHeader />
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+  <section id="gallery-hero" class="relative overflow-hidden" style="min-height: 90vh; margin-top: 4rem;">
+
+    <!-- SVG background pattern — starts hidden, fades in after warp -->
+    <div class="absolute inset-0 pointer-events-none" style="z-index:0;" aria-hidden="true">
+      <img id="gl-bg-svg" src="/gallery-background.svg" alt="" class="w-full h-full object-cover object-top" style="opacity:0;" />
+    </div>
+
+    <!-- SVG filter for grid→wave morph (inline so it's in the same document) -->
+    <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+      <defs>
+        <filter id="gl-wave-filter" x="-50%" y="-50%" width="200%" height="200%">
+          <feTurbulence id="gl-turbulence" type="fractalNoise" baseFrequency="0.008 0.025" numOctaves="3" seed="8" result="noise"/>
+          <feDisplacementMap id="gl-disp-map" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Perspective grid -->
+    <div class="gl-grid-host" aria-hidden="true">
+      <div class="gl-grid-stage">
+        <div class="gl-grid-plane"></div>
+      </div>
+      <div class="gl-grid-fade"></div>
+    </div>
+
+    <!-- Dark overlay — wipes top-to-bottom on reveal -->
+    <div id="gl-dark-overlay" class="absolute inset-0 pointer-events-none" style="z-index:2; background:#0a0a0a;"></div>
+
+    <!-- Synchronously set instant light state on repeat loads (lang switch, back nav) -->
+    <script is:inline>
+      if (sessionStorage.getItem('stepin-intro-played')) {
+        var o = document.getElementById('gl-dark-overlay');
+        if (o) o.className = 'gl-overlay-instant-hide';
+        var g = document.querySelector('.gl-grid-host');
+        if (g) g.style.display = 'none';
+        var h = document.getElementById('gallery-header');
+        if (h) h.classList.add('is-light');
+        document.documentElement.classList.add('gl-repeat-load');
+        document.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(function(el) {
+          el.classList.add('is-light');
+        });
+        var bgSvg = document.getElementById('gl-bg-svg');
+        if (bgSvg) bgSvg.style.opacity = '0.6';
+      }
+    </script>
+
+    <!-- Content -->
+    <div class="site-container relative py-20 lg:py-28 gallery-hero-content" style="z-index:3;">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: text -->
+        <div>
+          <h1 class="gl-heading font-normal leading-[1.05] mb-6 text-[42px] lg:text-[58px]"
+              style="font-family: 'Antic Didone', serif;">
+            A Premium Showroom<br />Experience
+          </h1>
+          <p class="gl-body font-onest font-normal text-lg mb-8 max-w-[480px]">
+            Explore curated furniture, walk through spaces in VR, and witness
+            high-impact laser presentations — all under one roof.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#contact" class="font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] flex items-center justify-center">
+              Request a Demo
+            </a>
+            <a href="#services" class="gl-outline-btn font-onest font-medium text-sm px-[22px] h-11 rounded-full border flex items-center justify-center transition-colors">
+              Explore our Features
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: arch photos -->
+        <div class="hidden lg:flex items-end justify-center gap-5">
+          <div class="arch-photo">
+            <img src={imgProjectionWalkthroughs} alt="Projection Walkthroughs" class="w-full h-full object-cover" />
+          </div>
+          <div class="arch-photo arch-photo--tall">
+            <img src={imgVrWalkthroughSessions} alt="VR Walkthrough" class="w-full h-full object-cover" />
+          </div>
+          <div class="arch-photo">
+            <img src={imgCuratedInteriorFurniture} alt="Curated Interior" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GALLERY watermark -->
+    <div class="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none" style="z-index:3;">
+      <p class="gallery-watermark font-onest font-bold text-center leading-none select-none"
+         style="font-size: clamp(56px, 13vw, 180px); letter-spacing: 0.12em; color: rgba(71,67,57,0.08);">
+        GALLERY
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Our Services ───────────────────────────────────────────────────────── -->
+  <section id="services" class="bg-[#eae4d6] py-20">
+    <div class="site-container">
+      <h2 class="mb-12 font-normal text-[#474339] text-[36px] leading-[1.1]"
+          style="font-family: 'Antic Didone', serif;">
+        Our Services
+      </h2>
+      <div class="grid lg:grid-cols-3 gap-6">
+        {services.map((s) => (
+          <div class="bg-[#faf9ee] overflow-hidden">
+            <div class="h-[220px] overflow-hidden">
+              <img src={s.img} alt={s.title} class="w-full h-full object-cover" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-onest font-bold text-[#2e251f] text-[18px] leading-7 mb-3">{s.title}</h3>
+              <p class="font-onest text-[#817065] text-[14px] leading-[1.625]">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Brands We Offer ────────────────────────────────────────────────────── -->
+  <section class="bg-[#faf9ee] border-t border-[#d8d1ca] py-20">
+    <div class="site-container">
+      <div class="mb-12">
+        <h2 class="font-normal text-[#474339] text-[36px] leading-[1.1] mb-3"
+            style="font-family: 'Antic Didone', serif;">
+          Brands We Offer
+        </h2>
+        <p class="font-onest text-[#817065] text-[14px] max-w-[480px]">
+          We partner with leading manufacturers to bring you the finest in
+          contemporary furniture and interiors.
+        </p>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-6">
+        {brands.map((b) => (
+          <div class="border border-[#d8d1ca] overflow-hidden">
+            <div class="bg-[#fafafa] border-b border-[#d8d1ca] flex items-center justify-center py-16 px-8 min-h-[200px]">
+              <img src={b.logo} alt={b.name} class="max-h-14 max-w-[200px] object-contain mix-blend-darken" />
+            </div>
+            <div class="bg-white p-8">
+              <h3 class="font-onest font-bold text-[#2e251f] text-[18px] leading-7 mb-3">{b.name}</h3>
+              <p class="font-onest text-[#817065] text-[14px] leading-[1.625]">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reserve Session CTA ───────────────────────────────────────────────── -->
+  <section id="contact" class="bg-[#eae4d6] border-t border-[#d8d1ca] py-20">
+    <div class="site-container">
+      <div class="bg-[#faf9ee] p-12 lg:p-16">
+        <h2 class="font-normal text-[#2e251f] text-[40px] lg:text-[44px] leading-[1.1] tracking-[-0.03em] mb-6 max-w-[680px]"
+            style="font-family: 'Antic Didone', serif;">
+          Reserve your session at the STEP IN Gallery
+        </h2>
+        <p class="font-onest font-light text-[#817065] text-[18px] lg:text-[20px] leading-[1.625] mb-8 max-w-[520px]">
+          Book an immersive walkthrough session for your team or clients today.
+          Experience the power of spatial design firsthand.
+        </p>
+        <a href="mailto:hello@stepin-hq.com"
+           class="inline-flex items-center justify-center font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414]">
+          Request a Demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer theme="gallery" />
+</BaseLayout>
+
+<style>
+  /* ── Instant-hide on repeat load (no transition at all) ─────────────────── */
+  .gl-overlay-instant-hide {
+    display: none !important;
+  }
+
+  /* ── Gallery hero content — hidden until animation ends ─────────────────── */
+  .gallery-hero-content {
+    opacity: 0;
+  }
+  .gallery-hero-content.is-visible {
+    animation: glContentReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes glContentReveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Text colour — dark while overlay is up, fades to warm on reveal ─────── */
+  .gl-heading {
+    color: #f0ebe0;
+    transition: color 1.4s ease;
+  }
+  .gl-heading.is-light { color: #474339; }
+
+  .gl-body {
+    color: rgba(205, 212, 228, 0.9);
+    transition: color 1.4s ease;
+  }
+  .gl-body.is-light { color: #817065; }
+
+  .gl-outline-btn {
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.25);
+    transition: color 1.4s ease, border-color 1.4s ease;
+  }
+  .gl-outline-btn.is-light {
+    color: #2e251f;
+    border-color: #bb9880;
+  }
+
+  /* ── Dark overlay — top-to-bottom wipe via clip-path ────────────────────── */
+  #gl-dark-overlay {
+    /* clip from top: inset(0 0 100%) = fully visible; inset(0 0 0%) = clipped away */
+    clip-path: inset(0 0 0% 0);
+    transition: clip-path 1.6s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  #gl-dark-overlay.wipe-up {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  /* ── Arch photos ─────────────────────────────────────────────────────────── */
+  .arch-photo {
+    width: 148px;
+    height: 210px;
+    border-radius: 9999px 9999px 0 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+  .arch-photo--tall {
+    height: 260px;
+    align-self: flex-start;
+  }
+
+  /* ── Perspective grid ────────────────────────────────────────────────────── */
+  .gl-grid-host {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.6s ease;
+  }
+  .gl-grid-host.is-faded { opacity: 0; }
+
+  .gl-grid-stage {
+    position: absolute;
+    inset: 0;
+    perspective: 600px;
+    perspective-origin: 50% 0%;
+  }
+
+  .gl-grid-plane {
+    position: absolute;
+    bottom: -10%;
+    left: -60%;
+    right: -60%;
+    height: 130%;
+    background-image:
+      linear-gradient(rgba(162, 188, 255, 0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(162, 188, 255, 0.18) 1px, transparent 1px);
+    background-size: 80px 80px;
+    transform-origin: bottom center;
+    will-change: transform, opacity;
+    opacity: 1;
+    transform: rotateX(76deg) scale(1);
+  }
+
+  .gl-grid-plane.is-animating {
+    animation: glGridReveal 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes glGridReveal {
+    0%   { opacity: 0; transform: rotateX(4deg) scale(4); }
+    8%   { opacity: 1; transform: rotateX(6deg) scale(3.6); }
+    100% { opacity: 1; transform: rotateX(76deg) scale(1); }
+  }
+
+  .gl-grid-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      #0a0a0a 0%,
+      rgba(10, 10, 10, 0.6) 30%,
+      transparent 62%,
+      rgba(10, 10, 10, 0.15) 100%
+    );
+  }
+</style>
+
+<script>
+  const GRID_DURATION_MS = 5000;
+  const WARP_DURATION_MS = 2000;
+
+  function initGallery() {
+    const html       = document.documentElement;
+    const plane      = document.querySelector<HTMLElement>('.gl-grid-plane');
+    const content    = document.querySelector<HTMLElement>('.gallery-hero-content');
+    const overlay    = document.getElementById('gl-dark-overlay');
+    const gridHost   = document.querySelector<HTMLElement>('.gl-grid-host');
+    const heading    = document.querySelector<HTMLElement>('.gl-heading');
+    const body       = document.querySelector<HTMLElement>('.gl-body');
+    const outlineBtn = document.querySelector<HTMLElement>('.gl-outline-btn');
+    const bgSvg      = document.getElementById('gl-bg-svg') as HTMLElement | null;
+
+    if (!plane || !content) return;
+
+    function goLight() {
+      gridHost?.classList.add('is-faded');
+      setTimeout(() => overlay?.classList.add('wipe-up'), 300);
+      heading?.classList.add('is-light');
+      body?.classList.add('is-light');
+      outlineBtn?.classList.add('is-light');
+      // Fade in the wave background SVG as the grid disappears
+      if (bgSvg) {
+        bgSvg.style.transition = 'opacity 1.4s ease';
+        bgSvg.style.opacity = '0.6';
+      }
+      document.dispatchEvent(new CustomEvent('gallery:light'));
+    }
+
+    function goWarp() {
+      const dispMap = document.getElementById('gl-disp-map');
+
+      // Stop the keyframe animation and snapshot current (settled) transform
+      plane.style.animation = 'none';
+      plane.style.transform = 'rotateX(76deg) scale(1)';
+      void plane.offsetWidth;
+
+      // Flatten the grid: 76° → 2°, spreading outward
+      plane.style.transition = `transform ${WARP_DURATION_MS * 0.85}ms cubic-bezier(0.25, 0, 0.1, 1)`;
+      plane.style.transform = 'rotateX(2deg) scale(1.25)';
+
+      // Apply the filter to the stage so overflow isn't clipped
+      const stage = document.querySelector<HTMLElement>('.gl-grid-stage');
+      if (stage) stage.style.filter = 'url(#gl-wave-filter)';
+
+      if (dispMap) {
+        let startTime: number | null = null;
+
+        function animateDisplace(ts: number) {
+          if (!startTime) startTime = ts;
+          const t = Math.min((ts - startTime) / WARP_DURATION_MS, 1);
+
+          // Ramp up fast, decay slow — lines snap into waves then settle
+          const scale = t < 0.35
+            ? (t / 0.35) * 160
+            : 160 * Math.exp(-5 * (t - 0.35));
+
+          dispMap.setAttribute('scale', String(Math.round(scale)));
+
+          if (t < 1) {
+            requestAnimationFrame(animateDisplace);
+          } else {
+            dispMap.setAttribute('scale', '0');
+            if (stage) stage.style.filter = '';
+            goLight();
+          }
+        }
+
+        requestAnimationFrame(animateDisplace);
+      } else {
+        setTimeout(goLight, WARP_DURATION_MS);
+      }
+    }
+
+    if (!html.classList.contains('intro-playing')) {
+      // Repeat load — inline script already applied light state before paint
+      content.style.opacity = '1';
+      html.classList.remove('gl-repeat-load');
+      if (bgSvg) bgSvg.style.opacity = '0.6';
+      document.dispatchEvent(new CustomEvent('gallery:light'));
+      return;
+    }
+
+    // intro-playing is set — but was it from a main-page intro or a direct gallery load?
+    // Direct loads should skip the animation and go to light immediately.
+    // The warp animation is only for main-page → gallery transitions (future work).
+    sessionStorage.setItem('stepin-intro-played', '1');
+    html.classList.remove('intro-playing');
+    content.style.opacity = '1';
+    if (overlay) overlay.className = 'gl-overlay-instant-hide';
+    if (gridHost) gridHost.style.display = 'none';
+    if (bgSvg) bgSvg.style.opacity = '0.6';
+    document.dispatchEvent(new CustomEvent('gallery:light'));
+    return;
+
+    // (Animation code below is preserved for future main→gallery transition)
+    html.style.overflow = 'hidden';
+
+    plane.classList.remove('is-animating');
+    void plane.offsetWidth;
+    plane.classList.add('is-animating');
+
+    setTimeout(() => {
+      html.style.overflow = '';
+      html.classList.remove('intro-playing');
+      content.classList.add('is-visible');
+      setTimeout(goWarp, 400);
+    }, GRID_DURATION_MS);
+  }
+
+  document.addEventListener('DOMContentLoaded', initGallery);
+  document.addEventListener('astro:page-load', initGallery);
+</script>

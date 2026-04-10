@@ -1,0 +1,195 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+const locale = Astro.currentLocale ?? 'en';
+const isBg = locale === 'bg';
+const homeUrl = getRelativeLocaleUrl(locale, '/');
+---
+
+<section class="relative overflow-hidden min-h-screen flex items-center">
+
+  <!-- Animated perspective grid -->
+  <div class="grid-host" aria-hidden="true">
+    <div class="grid-stage">
+      <div class="grid-plane"></div>
+    </div>
+    <div class="grid-fade"></div>
+  </div>
+
+  <!-- Content — hidden until grid animation completes -->
+  <div class="site-container relative z-10 py-24 lg:py-32 hero-content">
+    <!-- Badge -->
+    <div class="section-badge mb-6 mx-auto md:mx-0 w-fit">
+      <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
+      <span>{isBg ? 'ПРЕОТКРИЙТЕ РАЗХОДКАТА' : 'REDEFINE THE WALKTHROUGH'}</span>
+    </div>
+
+    <!-- Heading -->
+    <h1
+      class="font-onest font-bold text-[#EDEDED] leading-[1.05] mb-6
+        text-[28px] text-center tracking-[-0.56px]
+        md:text-[48px] md:text-left md:tracking-normal
+        lg:text-[64px]
+        max-w-[820px] mx-auto md:mx-0"
+      style="text-shadow: 0px 1px 4px #2c4481;"
+    >
+      {isBg ? (
+        <>Потапящи <span class="text-[#A2BCFF]">VR разходки</span><br class="hidden md:block" /> за недвижими имоти и дизайн</>
+      ) : (
+        <>Immersive <span class="text-[#A2BCFF]">VR Walkthroughs</span><br class="hidden md:block" /> for Real Estate &amp; Design</>
+      )}
+    </h1>
+
+    <!-- Subtext -->
+    <p class="font-onest font-normal text-[#CDD4E4] mb-10 max-w-[600px]
+      text-base text-center
+      md:text-[18px] md:text-left
+      mx-auto md:mx-0">
+      {isBg
+        ? 'B2B платформа, превръщаща 3D модели в споделими VR преживявания — ускорете процеса, впечатлете клиентите и затваряйте сделки с увереност.'
+        : 'A B2B platform that transforms 3D models into shareable VR experiences — accelerate your pipeline, impress stakeholders, and close deals with confidence.'}
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+      <a href={`${homeUrl}#contact`} class="btn-primary flex-1 sm:flex-none text-center">{isBg ? 'Заявете демо' : 'Request a Demo'}</a>
+      <a href={getRelativeLocaleUrl(locale, '/gallery')} class="btn-secondary flex-1 sm:flex-none text-center">{isBg ? 'Разгледайте галерията' : 'Watch the Experience'}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Hero content ────────────────────────────────────────────────────────── */
+  .hero-content.is-visible {
+    animation: contentReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes contentReveal {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Grid host ──────────────────────────────────────────────────────────── */
+  .grid-host {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* ── Grid stage — perspective container ─────────────────────────────────── */
+  .grid-stage {
+    position: absolute;
+    inset: 0;
+    perspective: 600px;
+    perspective-origin: 50% 0%;
+  }
+
+  /* ── Grid plane ─────────────────────────────────────────────────────────── */
+  .grid-plane {
+    position: absolute;
+    bottom: -10%;
+    left: -60%;
+    right: -60%;
+    height: 130%;
+
+    background-image:
+      linear-gradient(rgba(162, 188, 255, 0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(162, 188, 255, 0.18) 1px, transparent 1px);
+    background-size: 80px 80px;
+
+    transform-origin: bottom center;
+    will-change: transform, opacity;
+    /* Default: resting perspective state — shown instantly on repeat loads */
+    opacity: 1;
+    transform: rotateX(76deg) scale(1);
+  }
+
+  /* When animating, the keyframe takes over from frame 0 */
+  .grid-plane.is-animating {
+    animation: gridReveal 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /*
+    Start: nearly flat (rotateX 4°) + scaled up 4× — you're standing
+           right on the grid, squares fill the entire view (zoomed in).
+    Mid:   scale eases back as the tilt increases — pulling away.
+    End:   rotateX 76°, scale 1 — the Figma perspective floor.
+  */
+  @keyframes gridReveal {
+    0% {
+      opacity: 0;
+      transform: rotateX(4deg) scale(4);
+    }
+    8% {
+      opacity: 1;
+      transform: rotateX(6deg) scale(3.6);
+    }
+    100% {
+      opacity: 1;
+      transform: rotateX(76deg) scale(1);
+    }
+  }
+
+  /* ── Gradient fade — dissolves grid at horizon and bottom edge ──────────── */
+  .grid-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      #0a0a0a 0%,
+      rgba(10, 10, 10, 0.6) 30%,
+      transparent 62%,
+      rgba(10, 10, 10, 0.15) 100%
+    );
+  }
+</style>
+
+<script>
+  const GRID_DURATION_MS = 5000;
+
+  function init() {
+    const html    = document.documentElement;
+    const plane   = document.querySelector<HTMLElement>('.grid-plane');
+    const content = document.querySelector<HTMLElement>('.hero-content');
+
+    if (!plane || !content) return;
+
+    // ── Not a first load — skip everything, show immediately ─────────────────
+    if (!html.classList.contains('intro-playing')) {
+      return;
+    }
+
+    // ── First load — play the intro ──────────────────────────────────────────
+
+    // Mark as played so refreshes and navigation skip it from now on
+    sessionStorage.setItem('stepin-intro-played', '1');
+
+    // Lock scroll for the duration
+    document.documentElement.style.overflow = 'hidden';
+
+    // Start grid animation from frame 0
+    plane.classList.remove('is-animating');
+    void plane.offsetWidth; // force reflow
+    plane.classList.add('is-animating');
+
+    // After animation: unlock, reveal content + header
+    setTimeout(() => {
+      document.documentElement.style.overflow = '';
+      html.classList.remove('intro-playing'); // CSS restores header opacity
+
+      content.classList.add('is-visible');
+    }, GRID_DURATION_MS);
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>

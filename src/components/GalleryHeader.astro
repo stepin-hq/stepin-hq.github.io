@@ -1,0 +1,355 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const locale    = Astro.currentLocale ?? 'en';
+const rawPath   = Astro.url.pathname;
+const canonPath = rawPath.replace(/^\/bg/, '') || '/';
+const enUrl     = getRelativeLocaleUrl('en', canonPath);
+const bgUrl     = getRelativeLocaleUrl('bg', canonPath);
+const homeUrl   = getRelativeLocaleUrl(locale, '/');
+---
+
+<!--
+  Gallery header — starts transparent/dark during the animation,
+  transitions to the Figma light state (#faf9ee) when the page goes light.
+  The `is-light` class is toggled by the gallery page script via the `gallery:light` event.
+-->
+<header id="gallery-header" class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-md">
+  <div class="site-container h-full flex items-center justify-between">
+
+    <!-- Logo: STEPIN mark + "GALLERY" wordmark -->
+    <a href={homeUrl} class="shrink-0 flex items-center gap-[11px]" aria-label="STEPIN Gallery">
+      <div class="relative h-[34px]" style="width: calc(34px * 99 / 35)">
+        <!-- Dark logo (shown during animation) -->
+        <svg class="gl-logo-dark absolute inset-0 h-full w-auto" viewBox="0 0 99 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M81.6035 28.9508V8.12109H84.8738L95.7454 25.4743V8.12109H98.3087V28.9508H95.0973L84.1667 11.6565V28.9508H81.6035Z" fill="#ECEFF9"/>
+          <path d="M76.2148 28.9508V8.12109H78.7781V28.9508H76.2148Z" fill="#ECEFF9"/>
+          <path d="M56.8789 28.951V8.0918H65.6292C67.2595 8.0918 68.6933 8.32749 69.9307 8.79889C71.1681 9.25064 72.1404 10.0167 72.8475 11.0969C73.5546 12.1576 73.9081 13.6209 73.9081 15.4868C73.9081 17.1956 73.5349 18.6196 72.7886 19.7588C72.0422 20.8784 71.0306 21.7131 69.7539 22.2631C68.4772 22.813 67.0336 23.088 65.423 23.088H62.2116V28.951H56.8789ZM62.2116 18.3446H65.423C66.4443 18.3446 67.2398 18.0991 67.8094 17.6081C68.379 17.117 68.6638 16.4198 68.6638 15.5162C68.6638 14.711 68.4085 14.1021 67.8978 13.6896C67.4068 13.2575 66.572 13.0414 65.3935 13.0414H62.2116V18.3446Z" fill="#ECEFF9"/>
+          <path d="M39.8477 28.951V8.0918H55.5805V13.0414H45.1803V16.2233H53.7539V20.9373H45.1803V24.0308H55.5805V28.951H39.8477Z" fill="#ECEFF9"/>
+          <path d="M27.1597 28.951V13.0414H20.9727V8.0918H38.709V13.0414H32.4924V28.951H27.1597Z" fill="#ECEFF9"/>
+          <path d="M15.2819 3.8258V30.3739L7.22266 34.1665V0.0332031L15.2819 3.8258ZM8.1708 32.6721L14.3338 29.7721V4.42718L8.1708 1.52718V32.6721Z" fill="#434854"/>
+          <path d="M8.62794 28.486C7.15676 28.0918 5.85774 27.47 4.73088 26.6207C3.62287 25.7764 2.8081 24.7055 2.28654 23.4078C1.78384 22.1152 1.6713 20.6114 1.94893 18.8962L7.09805 20.276C7.08271 20.8613 7.20686 21.3788 7.47048 21.8284C7.73937 22.2583 8.11682 22.6226 8.60283 22.9213C9.1077 23.225 9.67135 23.4602 10.2938 23.627C10.671 23.7281 11.0682 23.7924 11.4853 23.82C11.9025 23.8475 12.272 23.7887 12.594 23.6433C12.9348 23.5031 13.1604 23.2267 13.271 22.8142C13.3499 22.5196 13.3282 22.2611 13.2058 22.0388C13.1076 21.802 12.9233 21.5842 12.6531 21.3855C12.4071 21.1722 12.0803 20.9583 11.6728 20.7438C11.5136 20.6591 11.3449 20.5718 11.1668 20.482C11.0076 20.3972 10.8484 20.3124 10.6891 20.2276C10.5299 20.1429 10.3613 20.0556 10.1832 19.9658C9.27914 19.4919 8.42073 18.9988 7.60793 18.4862C6.8004 17.9541 6.12029 17.3613 5.5676 16.7079C5.01491 16.0546 4.64579 15.282 4.46023 14.3901C4.27467 13.4983 4.34242 12.4533 4.66348 11.2551C4.95822 10.1551 5.3942 9.28244 5.97143 8.6371C6.55392 7.97211 7.21691 7.49712 7.96038 7.21212C8.70912 6.90747 9.48287 6.73585 10.2816 6.69723C11.0804 6.65862 11.8486 6.69606 12.5864 6.80953C13.3295 6.90337 13.9839 7.02609 14.5497 7.17771C15.9455 7.55169 17.0978 8.15519 18.0066 8.9882C18.9207 9.80157 19.559 10.8147 19.9213 12.0276C20.3025 13.2455 20.3617 14.6088 20.099 16.1174L15.1479 14.7907C15.2072 14.3434 15.1348 13.9345 14.9308 13.5641C14.7321 13.174 14.4275 12.8397 14.0169 12.5613C13.6305 12.2683 13.1449 12.0434 12.5602 11.8868C12.2207 11.7958 11.8921 11.7394 11.5746 11.7174C11.257 11.6955 10.9693 11.7131 10.7113 11.7703C10.4723 11.8326 10.2631 11.9344 10.0837 12.0758C9.90427 12.2172 9.783 12.4058 9.71984 12.6415C9.63562 12.9558 9.67774 13.2513 9.84618 13.528C10.0335 13.8098 10.3324 14.0899 10.743 14.3683C11.1724 14.6518 11.7029 14.9729 12.3346 15.3316C12.6342 15.4961 12.9243 15.6581 13.205 15.8175C13.491 15.9573 13.7744 16.1069 14.0551 16.2663C14.8324 16.6851 15.5452 17.1182 16.1935 17.5656C16.8606 18.0181 17.4125 18.5238 17.8489 19.0829C18.3042 19.647 18.5975 20.3256 18.7286 21.1186C18.865 21.8921 18.7885 22.8189 18.499 23.8993C18.1675 25.1368 17.6595 26.127 16.9753 26.87C16.2963 27.5933 15.4991 28.1165 14.5837 28.4397C13.6683 28.7628 12.6954 28.9232 11.665 28.9208C10.6399 28.8988 9.62758 28.7538 8.62794 28.486Z" fill="#A3BDFF"/>
+          <rect x="8.16992" y="4.77441" width="5.68889" height="24.1778" fill="url(#gld-grad-0)"/>
+          <rect opacity="0.7" x="8.16992" y="4.77441" width="4.26667" height="24.1778" fill="url(#gld-grad-1)"/>
+          <path d="M15.2819 3.76111V6.96019H14.3338V4.36482L8.1708 1.48843V32.7111L14.3338 29.8347V28.6227H15.2819V30.4389L7.22266 34.2V0L15.2819 3.76111Z" fill="url(#gld-grad-2)"/>
+          <defs>
+            <linearGradient id="gld-grad-0" x1="8.57627" y1="15.4411" x2="13.8588" y2="15.4411" gradientUnits="userSpaceOnUse">
+              <stop/><stop offset="1" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="gld-grad-1" x1="8.47468" y1="15.4411" x2="12.4366" y2="15.4411" gradientUnits="userSpaceOnUse">
+              <stop/><stop offset="1" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="gld-grad-2" x1="8.4083" y1="15.6778" x2="14.3342" y2="15.6778" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#767F94"/><stop offset="1" stop-color="#434854"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <!-- Light logo (shown after animation) -->
+        <svg class="gl-logo-light absolute inset-0 h-full w-auto" viewBox="0 0 99 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M81.7051 28.9508V8.12109H84.9754L95.847 25.4743V8.12109H98.4102V28.9508H95.1988L84.2683 11.6565V28.9508H81.7051Z" fill="#2E251F"/>
+          <path d="M76.3164 28.9508V8.12109H78.8796V28.9508H76.3164Z" fill="#2E251F"/>
+          <path d="M56.9814 28.951V8.0918H65.7318C67.362 8.0918 68.7958 8.32749 70.0333 8.79889C71.2707 9.25064 72.2429 10.0167 72.95 11.0969C73.6571 12.1576 74.0107 13.6209 74.0107 15.4868C74.0107 17.1956 73.6375 18.6196 72.8911 19.7588C72.1447 20.8784 71.1332 21.7131 69.8565 22.2631C68.5798 22.813 67.1361 23.088 65.5255 23.088H62.3141V28.951H56.9814ZM62.3141 18.3446H65.5255C66.5469 18.3446 67.3424 18.0991 67.912 17.6081C68.4816 17.117 68.7664 16.4198 68.7664 15.5162C68.7664 14.711 68.511 14.1021 68.0004 13.6896C67.5093 13.2575 66.6746 13.0414 65.4961 13.0414H62.3141V18.3446Z" fill="#2E251F"/>
+          <path d="M39.9482 28.951V8.0918H55.6811V13.0414H45.2809V16.2233H53.8545V20.9373H45.2809V24.0308H55.6811V28.951H39.9482Z" fill="#2E251F"/>
+          <path d="M27.2613 28.951V13.0414H21.0742V8.0918H38.8105V13.0414H32.594V28.951H27.2613Z" fill="#2E251F"/>
+          <path d="M15.2829 3.8258V30.3739L7.22363 34.1665V0.0332031L15.2829 3.8258ZM8.17178 32.6721L14.3347 29.7721V4.42718L8.17178 1.52718V32.6721Z" fill="#434854"/>
+          <path d="M8.62989 28.486C7.15871 28.0918 5.85969 27.47 4.73283 26.6207C3.62483 25.7764 2.81005 24.7055 2.28849 23.4078C1.78579 22.1152 1.67326 20.6114 1.95088 18.8962L7.10001 20.276C7.08467 20.8613 7.20881 21.3788 7.47243 21.8284C7.74132 22.2583 8.11877 22.6226 8.60478 22.9213C9.10966 23.225 9.6733 23.4602 10.2957 23.627C10.6729 23.7281 11.0701 23.7924 11.4873 23.82C11.9044 23.8475 12.274 23.7887 12.5959 23.6433C12.9367 23.5031 13.1624 23.2267 13.2729 22.8142C13.3519 22.5196 13.3302 22.2611 13.2078 22.0388C13.1095 21.802 12.9253 21.5842 12.6551 21.3855C12.409 21.1722 12.0822 20.9583 11.6747 20.7438C11.5155 20.6591 11.3468 20.5718 11.1688 20.482C11.0095 20.3972 10.8503 20.3124 10.6911 20.2276C10.5319 20.1429 10.3632 20.0556 10.1851 19.9658C9.28109 19.4919 8.42268 18.9988 7.60988 18.4862C6.80235 17.9541 6.12224 17.3613 5.56955 16.7079C5.01687 16.0546 4.64774 15.282 4.46218 14.3901C4.27663 13.4983 4.34438 12.4533 4.66543 11.2551C4.96017 10.1551 5.39616 9.28244 5.97339 8.6371C6.55588 7.97211 7.21886 7.49712 7.96234 7.21212C8.71107 6.90747 9.48482 6.73585 10.2836 6.69723C11.0823 6.65862 11.8506 6.69606 12.5884 6.80953C13.3314 6.90337 13.9858 7.02609 14.5517 7.17771C15.9474 7.55169 17.0997 8.15519 18.0086 8.9882C18.9227 9.80157 19.5609 10.8147 19.9233 12.0276C20.3045 13.2455 20.3637 14.6088 20.101 16.1174L15.1499 14.7907C15.2091 14.3434 15.1367 13.9345 14.9328 13.5641C14.734 13.174 14.4294 12.8397 14.0188 12.5613C13.6324 12.2683 13.1468 12.0434 12.5621 11.8868C12.2226 11.7958 11.8941 11.7394 11.5765 11.7174C11.259 11.6955 10.9712 11.7131 10.7133 11.7703C10.4742 11.8326 10.265 11.9344 10.0856 12.0758C9.90623 12.2172 9.78495 12.4058 9.72179 12.6415C9.63758 12.9558 9.67969 13.2513 9.84813 13.528C10.0354 13.8098 10.3344 14.0899 10.7449 14.3683C11.1744 14.6518 11.7049 14.9729 12.3365 15.3316C12.6361 15.4961 12.9263 15.6581 13.207 15.8175C13.493 15.9573 13.7763 16.1069 14.0571 16.2663C14.8343 16.6851 15.5471 17.1182 16.1954 17.5656C16.8626 18.0181 17.4144 18.5238 17.8509 19.0829C18.3062 19.647 18.5994 20.3256 18.7306 21.1186C18.867 21.8921 18.7905 22.8189 18.501 23.8993C18.1694 25.1368 17.6615 26.127 16.9772 26.87C16.2983 27.5933 15.5011 28.1165 14.5856 28.4397C13.6702 28.7628 12.6973 28.9232 11.667 28.9208C10.6419 28.8988 9.62954 28.7538 8.62989 28.486Z" fill="#2E251F"/>
+          <rect x="8.10156" y="5.09961" width="3" height="24" fill="#FEFAEF"/>
+          <path d="M15.2829 3.76111V6.96019H14.3347V4.36482L8.17178 1.48843V32.7111L14.3347 29.8347V28.6227H15.2829V30.4389L7.22363 34.2V0L15.2829 3.76111Z" fill="url(#gll-grad-0)"/>
+          <defs>
+            <linearGradient id="gll-grad-0" x1="8.40928" y1="15.6778" x2="14.3352" y2="15.6778" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#767F94"/><stop offset="1" stop-color="#434854"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="gl-gallery-text font-onest font-semibold text-[13px] tracking-[0.3em] uppercase leading-none">
+        GALLERY
+      </span>
+    </a>
+
+    <!-- Nav -->
+    <div class="hidden lg:flex items-center gap-4">
+
+      <!-- Back to main site — plain link with arrow, no border -->
+      <a href={homeUrl}
+         class="gl-back font-onest font-medium text-[14px] leading-5 flex items-center gap-2 transition-opacity hover:opacity-70">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0">
+          <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
+      </a>
+
+      <!-- Request a Demo — transitions from ghost to yellow -->
+      <a href="#contact"
+         class="gl-cta font-onest font-medium text-[14px] leading-5 h-11 px-[22px] rounded-full flex items-center justify-center transition-colors">
+        {locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}
+      </a>
+
+      <!-- Language switcher -->
+      <div class="relative" id="gl-lang-switcher">
+        <button
+          id="gl-lang-btn"
+          class="gl-lang-btn flex items-center gap-[4px] rounded-[12px] px-[8px] py-[4px] transition-colors"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+        >
+          {locale === 'bg' ? (
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+              <rect width="16" height="4" fill="white"/>
+              <rect y="4" width="16" height="4" fill="#00966E"/>
+              <rect y="8" width="16" height="4" fill="#D62612"/>
+            </svg>
+          ) : (
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+              <rect width="16" height="12" fill="#B22234"/>
+              <rect y="0.923" width="16" height="0.923" fill="white"/>
+              <rect y="2.769" width="16" height="0.923" fill="white"/>
+              <rect y="4.615" width="16" height="0.923" fill="white"/>
+              <rect y="6.462" width="16" height="0.923" fill="white"/>
+              <rect y="8.308" width="16" height="0.923" fill="white"/>
+              <rect y="10.154" width="16" height="0.923" fill="white"/>
+              <rect width="7" height="6.462" fill="#3C3B6E"/>
+            </svg>
+          )}
+          <span class="gl-lang-label font-onest font-medium text-[12px] leading-4">
+            {locale === 'bg' ? 'BG' : 'EN'}
+          </span>
+          <svg id="gl-lang-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" class="gl-chevron-icon transition-transform duration-200">
+            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown — light theme to match gallery page -->
+        <ul
+          id="gl-lang-dropdown"
+          role="listbox"
+          class="absolute right-0 top-full mt-2 w-[140px] bg-[#faf9ee] border border-[#d8d1ca] rounded-[12px] overflow-hidden shadow-lg hidden z-50"
+        >
+          <li>
+            <a href={enUrl} role="option" aria-selected={locale === 'en'}
+               class="flex items-center gap-2 px-3 py-2.5 font-onest text-[12px] transition-colors hover:bg-[#eae4d6] text-[#2e251f]">
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+                <rect width="16" height="12" fill="#B22234"/>
+                <rect y="0.923" width="16" height="0.923" fill="white"/>
+                <rect y="2.769" width="16" height="0.923" fill="white"/>
+                <rect y="4.615" width="16" height="0.923" fill="white"/>
+                <rect y="6.462" width="16" height="0.923" fill="white"/>
+                <rect y="8.308" width="16" height="0.923" fill="white"/>
+                <rect y="10.154" width="16" height="0.923" fill="white"/>
+                <rect width="7" height="6.462" fill="#3C3B6E"/>
+              </svg>
+              English
+              {locale === 'en' && <span class="ml-auto text-[#817065]">✓</span>}
+            </a>
+          </li>
+          <li>
+            <a href={bgUrl} role="option" aria-selected={locale === 'bg'}
+               class="flex items-center gap-2 px-3 py-2.5 font-onest text-[12px] transition-colors hover:bg-[#eae4d6] text-[#474339]">
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+                <rect width="16" height="4" fill="white"/>
+                <rect y="4" width="16" height="4" fill="#00966E"/>
+                <rect y="8" width="16" height="4" fill="#D62612"/>
+              </svg>
+              Български
+              {locale === 'bg' && <span class="ml-auto text-[#817065]">✓</span>}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mobile: hamburger -->
+    <button id="gl-mobile-toggle" class="lg:hidden p-2 gl-mobile-icon" aria-label="Toggle menu" aria-expanded="false">
+      <svg id="gl-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+      <svg id="gl-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="gl-mobile-menu" class="hidden lg:hidden border-t gl-mobile-menu">
+    <div class="site-container py-4 flex flex-col gap-1 items-center">
+      <a href={homeUrl} class="w-full text-center gl-mobile-link font-onest font-medium text-sm py-3 px-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0">
+          <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
+      </a>
+      <div class="w-full pt-1">
+        <a href="#contact" class="font-onest font-medium text-sm text-[#141414] bg-[#FFD366] h-11 rounded-full flex items-center justify-center">{locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}</a>
+      </div>
+      <div class="pt-3 pb-1 flex items-center gap-3">
+        <a href={enUrl} class="flex items-center gap-2 px-3 py-2 rounded-lg gl-mobile-link font-onest font-medium text-sm transition-colors"
+           aria-current={locale === 'en' ? 'true' : undefined}>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+            <rect width="16" height="12" fill="#B22234"/>
+            <rect y="0.923" width="16" height="0.923" fill="white"/>
+            <rect y="2.769" width="16" height="0.923" fill="white"/>
+            <rect y="4.615" width="16" height="0.923" fill="white"/>
+            <rect y="6.462" width="16" height="0.923" fill="white"/>
+            <rect y="8.308" width="16" height="0.923" fill="white"/>
+            <rect y="10.154" width="16" height="0.923" fill="white"/>
+            <rect width="7" height="6.462" fill="#3C3B6E"/>
+          </svg>
+          EN
+          {locale === 'en' && <span class="ml-1 text-[#A2BCFF] text-xs">✓</span>}
+        </a>
+        <a href={bgUrl} class="flex items-center gap-2 px-3 py-2 rounded-lg gl-mobile-link font-onest font-medium text-sm transition-colors"
+           aria-current={locale === 'bg' ? 'true' : undefined}>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" class="shrink-0 rounded-[2px]">
+            <rect width="16" height="4" fill="white"/>
+            <rect y="4" width="16" height="4" fill="#00966E"/>
+            <rect y="8" width="16" height="4" fill="#D62612"/>
+          </svg>
+          BG
+          {locale === 'bg' && <span class="ml-1 text-[#A2BCFF] text-xs">✓</span>}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<style is:global>
+  /* ── Base ───────────────────────────────────────────────────────────────── */
+  #gallery-header {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 1.2s ease, border-color 1.2s ease, opacity 0.8s ease;
+  }
+
+  /* ── Logo cross-fade ───────────────────────────────────────────────────── */
+  #gallery-header .gl-logo-dark  { opacity: 1; transition: opacity 1.2s ease; }
+  #gallery-header .gl-logo-light { opacity: 0; transition: opacity 1.2s ease; }
+  #gallery-header.is-light .gl-logo-dark  { opacity: 0; }
+  #gallery-header.is-light .gl-logo-light { opacity: 1; }
+
+  /* ── Dark state (during animation) ─────────────────────────────────────── */
+  #gallery-header .gl-gallery-text {
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 1.2s ease;
+  }
+  #gallery-header .gl-back {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 1.2s ease;
+  }
+  #gallery-header .gl-cta {
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background-color: transparent;
+    transition: background-color 1.2s ease, color 1.2s ease, border-color 1.2s ease;
+  }
+  #gallery-header .gl-lang-btn {
+    background-color: rgba(237, 237, 237, 0.1);
+  }
+  #gallery-header .gl-lang-label,
+  #gallery-header .gl-chevron-icon {
+    color: #EDEDED;
+    transition: color 1.2s ease;
+  }
+  #gallery-header .gl-mobile-icon { color: rgba(255, 255, 255, 0.85); }
+  #gallery-header .gl-mobile-menu { border-color: rgba(255,255,255,0.06); background: rgba(10,10,10,0.95); }
+  #gallery-header .gl-mobile-link { color: rgba(255,255,255,0.8); }
+
+  /* ── Light state (after animation) ─────────────────────────────────────── */
+  #gallery-header.is-light {
+    background-color: transparent;
+    border-bottom-color: transparent;
+  }
+  #gallery-header.is-light .gl-gallery-text {
+    color: #817065;
+  }
+  #gallery-header.is-light .gl-back {
+    color: #2e251f;
+  }
+  #gallery-header.is-light .gl-cta {
+    background-color: #FFD366;
+    color: #141414;
+    border-color: #FFD366;
+  }
+  #gallery-header.is-light .gl-lang-btn {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  #gallery-header.is-light .gl-lang-label,
+  #gallery-header.is-light .gl-chevron-icon {
+    color: #2e251f;
+  }
+  #gallery-header.is-light .gl-mobile-icon { color: #2e251f; }
+  #gallery-header.is-light .gl-mobile-menu { border-color: rgba(216,209,202,0.6); background: rgba(250,249,238,0.98); }
+  #gallery-header.is-light .gl-mobile-link { color: #2e251f; }
+</style>
+
+<script>
+  let glCtrl = new AbortController();
+
+  function setupGalleryHeader() {
+    glCtrl.abort();
+    glCtrl = new AbortController();
+    const { signal } = glCtrl;
+
+    // Language switcher
+    const langBtn      = document.getElementById('gl-lang-btn');
+    const langDropdown = document.getElementById('gl-lang-dropdown');
+    const langChevron  = document.getElementById('gl-lang-chevron');
+
+    langBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !langDropdown?.classList.contains('hidden');
+      langDropdown?.classList.toggle('hidden', isOpen);
+      langChevron?.classList.toggle('rotate-180', !isOpen);
+      langBtn.setAttribute('aria-expanded', String(!isOpen));
+    }, { signal });
+
+    document.addEventListener('click', () => {
+      langDropdown?.classList.add('hidden');
+      langChevron?.classList.remove('rotate-180');
+      langBtn?.setAttribute('aria-expanded', 'false');
+    }, { signal });
+
+    // Mobile menu
+    const toggle    = document.getElementById('gl-mobile-toggle');
+    const menu      = document.getElementById('gl-mobile-menu');
+    const iconOpen  = document.getElementById('gl-icon-open');
+    const iconClose = document.getElementById('gl-icon-close');
+
+    toggle?.addEventListener('click', () => {
+      const isOpen = !menu?.classList.contains('hidden');
+      menu?.classList.toggle('hidden', isOpen);
+      iconOpen?.classList.toggle('hidden', !isOpen);
+      iconClose?.classList.toggle('hidden', isOpen);
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    }, { signal });
+
+    // Scroll-fill behaviour — colour depends on light/dark state
+    const header = document.getElementById('gallery-header');
+    function applyGlScroll() {
+      if (!header) return;
+      const isLight = header.classList.contains('is-light');
+      if (window.scrollY > 10) {
+        header.style.backgroundColor = isLight
+          ? 'rgba(254, 250, 239, 0.92)'
+          : 'rgba(0, 0, 0, 0.82)';
+        header.style.borderBottomColor = isLight
+          ? 'rgba(216, 209, 202, 0.6)'
+          : 'rgba(255, 255, 255, 0.06)';
+      } else {
+        header.style.backgroundColor = 'transparent';
+        header.style.borderBottomColor = 'transparent';
+      }
+    }
+    applyGlScroll();
+    window.addEventListener('scroll', applyGlScroll, { passive: true, signal });
+
+    // Listen for the gallery light transition
+    document.addEventListener('gallery:light', () => {
+      header?.classList.add('is-light');
+      // Re-apply scroll state with new light colours
+      applyGlScroll();
+    }, { signal });
+  }
+
+  document.addEventListener('astro:page-load', setupGalleryHeader);
+</script>

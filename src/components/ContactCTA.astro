@@ -1,0 +1,25 @@
+---
+const locale = Astro.currentLocale ?? 'en';
+const isBg = locale === 'bg';
+---
+
+<section id="contact" class="py-20 lg:py-28">
+  <div class="site-container">
+    <div class="bg-[#191C22] rounded-[4px] p-8 md:p-12 lg:p-16">
+      <div class="max-w-[672px]">
+        <h2
+          class="font-onest font-bold text-[#EEF3FF] text-3xl md:text-[44px] leading-tight mb-6 tracking-[-1.2px]"
+          style="text-shadow: 0px 1px 4px #2c4481;"
+        >
+          {isBg ? 'Готови ли сте да влезете в следващия проект?' : 'Ready to step in your next project?'}
+        </h2>
+        <p class="font-onest font-light text-[#CDD4E4] text-xl leading-relaxed mb-8">
+          {isBg
+            ? 'Резервирайте потапяща разходка за вашия екип или клиенти още днес. Преживейте силата на пространствения дизайн от първо лице.'
+            : 'Book an immersive walkthrough session for your team or clients today. Experience the power of spatial design firsthand.'}
+        </p>
+        <a href="mailto:hello@stepin-hq.com" class="btn-primary inline-block">{isBg ? 'Заявете демо' : 'Request a Demo'}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import WhatIsStepin from '../../components/WhatIsStepin.astro';
+import Workflow from '../../components/Workflow.astro';
+import Features from '../../components/Features.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<BaseLayout title="STEP IN — Gray Preview" theme="gray" noIntro={true}>
+
+  <!-- Headset intro overlay -->
+  <svg
+    id="gi-svg"
+    aria-hidden="true"
+    style="position:fixed;inset:0;width:100vw;height:100vh;z-index:200;pointer-events:none;opacity:0;"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <mask id="gi-mask">
+        <rect width="100%" height="100%" fill="white"/>
+        <g id="gi-hole">
+          <path d="M72.0146 4V20L69.5342 29.9609C69.3076 30.8594 68.9287 31.7051 68.4189 32.4629C67.9482 33.1621 67.3672 33.7871 66.6924 34.3125C66.1846 34.707 65.6338 35.0371 65.0537 35.2969C64.0293 35.7578 62.9121 36 61.7744 36C58.835 36 56.4121 36.0332 54.3877 36.0625C44.5958 36.1992 44.1279 36.2051 39.6045 31.6172H32.5049C29.7725 34.4258 27.9043 36 24.6943 36H10.2549C8.47367 36 6.74314 35.4062 5.33691 34.3125C4.40725 33.5879 3.65429 32.6719 3.125 31.6348C2.8545 31.1055 2.64257 30.5449 2.49512 29.9609C0.549809 22.0762 0.0146484 20 0.0146484 20L0 18.873V9.04688L0.00976562 6.4707L0.0146484 4L28.0146 0H44.0146L72.0146 4Z" fill="black"/>
+        </g>
+      </mask>
+    </defs>
+    <rect width="100%" height="100%" fill="#080808" mask="url(#gi-mask)"/>
+  </svg>
+
+  <Header theme="dark" />
+  <main>
+    <Hero />
+    <WhatIsStepin />
+    <Workflow />
+    <Features />
+    <HowItWorks />
+    <ContactCTA />
+  </main>
+  <Footer theme="dark" />
+</BaseLayout>
+
+<style is:global>
+  body[data-theme="gray"] .grid-host {
+    display: none !important;
+  }
+  body[data-theme="gray"] .hero-content {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  function runIntro() {
+    const svg = document.getElementById('gi-svg') as SVGSVGElement | null;
+    if (!svg) return;
+
+    const hole    = document.getElementById('gi-hole') as SVGGElement | null;
+    const content = document.querySelector<HTMLElement>('.hero-content');
+    if (!hole) return;
+
+    const HW = 73, HH = 37;
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    const MAX_SCALE = Math.ceil(Math.max(window.innerWidth / HW, window.innerHeight / HH)) * 2.2;
+
+    function applyScale(s: number) {
+      const t = `translate(${cx - (HW / 2) * s} ${cy - (HH / 2) * s}) scale(${s})`;
+      hole!.setAttribute('transform', t);
+    }
+
+    function easeInOutCubic(t: number) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function easeInCubic(t: number) {
+      return t * t * t;
+    }
+
+    const T_PULSE1    = 400;
+    const T_PULSE2    = 700;
+    const T_EXPAND    = 1900;
+    const T_MID       = (T_PULSE2 + T_EXPAND) / 2;
+    const T_FADEOUT   = 2500;
+
+    svg.style.opacity = '1';
+    applyScale(1);
+    if (content) content.style.opacity = '0';
+
+    let startTime: number | null = null;
+
+    function frame(now: number) {
+      if (!startTime) startTime = now;
+      const e = now - startTime;
+
+      if (e < T_PULSE1) {
+        const t = e / T_PULSE1;
+        applyScale(1 + 0.18 * easeInOutCubic(t));
+      } else if (e < T_PULSE2) {
+        const t = (e - T_PULSE1) / (T_PULSE2 - T_PULSE1);
+        applyScale(1.18 - 0.18 * easeInOutCubic(t));
+      } else if (e < T_EXPAND) {
+        const t = (e - T_PULSE2) / (T_EXPAND - T_PULSE2);
+        applyScale(1 + (MAX_SCALE - 1) * easeInCubic(t));
+        if (content && e >= T_MID) {
+          const ft = (e - T_MID) / (T_EXPAND - T_MID);
+          content.style.opacity = String(easeInOutCubic(ft));
+        }
+      } else if (e < T_FADEOUT) {
+        applyScale(MAX_SCALE);
+        if (content) content.style.opacity = '1';
+        const t = (e - T_EXPAND) / (T_FADEOUT - T_EXPAND);
+        svg!.style.opacity = String(1 - t);
+      } else {
+        if (content) content.style.opacity = '1';
+        svg!.remove();
+        return;
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  document.addEventListener('astro:page-load', runIntro);
+</script>

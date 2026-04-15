@@ -3,9 +3,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryHeader from '../../components/GalleryHeader.astro';
 import Footer from '../../components/Footer.astro';
 
-const imgProjectionWalkthroughs   = 'https://www.figma.com/api/mcp/asset/bf0ae460-6e38-4dcb-97a5-de13b6529907';
-const imgCuratedInteriorFurniture = 'https://www.figma.com/api/mcp/asset/ac113e5d-e39e-4202-93fd-676117b1c347';
-const imgVrWalkthroughSessions    = 'https://www.figma.com/api/mcp/asset/1ec09e91-118f-4352-939e-899945f3dcad';
+import projectionWalkthroughsImg from '../../assets/projection-walkthroughs.jpg';
+import curatedInteriorFurnitureImg from '../../assets/curated-interior-and-furniture.jpg';
+import vrWalkthroughSessionsImg from '../../assets/vr-walkthrough-sessions.jpg';
+import modernEntryImg from '../../assets/modern-styled-small-entryway.jpg';
+
+const imgProjectionWalkthroughs   = projectionWalkthroughsImg.src;
+const imgCuratedInteriorFurniture = curatedInteriorFurnitureImg.src;
+const imgVrWalkthroughSessions    = vrWalkthroughSessionsImg.src;
 const imgMeridian    = 'https://www.figma.com/api/mcp/asset/f15f3666-f259-4097-86a2-0f36a7b678ff';
 const imgAtelier     = 'https://www.figma.com/api/mcp/asset/b48e4bb7-da10-40cb-a116-9bc019ab9e72';
 const imgNomadCraft  = 'https://www.figma.com/api/mcp/asset/f81792c4-a268-43f3-bb1c-cf5ec30f64dc';
@@ -103,24 +108,30 @@ const brands = [
           </div>
         </div>
 
-        <div class="hidden lg:flex items-end justify-center gap-5">
-          <div class="arch-photo">
-            <img src={imgProjectionWalkthroughs} alt="Проекционни разходки" class="w-full h-full object-cover" />
-          </div>
-          <div class="arch-photo arch-photo--tall">
-            <img src={imgVrWalkthroughSessions} alt="VR разходка" class="w-full h-full object-cover" />
-          </div>
-          <div class="arch-photo">
-            <img src={imgCuratedInteriorFurniture} alt="Подбран интериор" class="w-full h-full object-cover" />
-          </div>
+        <!-- Right: headset-framed image — 1/4 bleeds past viewport right -->
+        <div class="hidden lg:block -mr-16">
+          <svg viewBox="0 0 72.0146 36" class="w-[150%]" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="headset-clip-gallery">
+                <path d="M72.0146 4V20L69.5342 29.9609C69.3076 30.8594 68.9287 31.7051 68.4189 32.4629C67.9482 33.1621 67.3672 33.7871 66.6924 34.3125C66.1846 34.707 65.6338 35.0371 65.0537 35.2969C64.0293 35.7578 62.9121 36 61.7744 36C58.835 36 56.4121 36.0332 54.3877 36.0625C44.5958 36.1992 44.1279 36.2051 39.6045 31.6172H32.5049C29.7725 34.4258 27.9043 36 24.6943 36H10.2549C8.47367 36 6.74314 35.4062 5.33691 34.3125C4.40725 33.5879 3.65429 32.6719 3.125 31.6348C2.8545 31.1055 2.64257 30.5449 2.49512 29.9609C0.549809 22.0762 0.0146484 20 0.0146484 20L0 18.873V9.04688L0.00976562 6.4707L0.0146484 4L28.0146 0H44.0146L72.0146 4Z" />
+              </clipPath>
+            </defs>
+            <image
+              href={modernEntryImg.src}
+              x="0" y="0"
+              width="72.0146" height="36"
+              preserveAspectRatio="xMidYMid slice"
+              clip-path="url(#headset-clip-gallery)"
+            />
+          </svg>
         </div>
 
       </div>
     </div>
 
     <div class="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none" style="z-index:3;">
-      <p class="gallery-watermark font-onest font-bold text-center leading-none select-none"
-         style="font-size: clamp(56px, 13vw, 180px); letter-spacing: 0.12em; color: rgba(71,67,57,0.08);">
+      <p class="gallery-watermark font-normal leading-none select-none"
+         style="font-family: 'Antic Didone', serif; font-size: clamp(56px, 13vw, 180px); letter-spacing: 0.12em; color: rgba(71,67,57,0.08); padding: 0;">
         ГАЛЕРИЯ
       </p>
     </div>

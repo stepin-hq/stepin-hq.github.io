@@ -1,28 +1,31 @@
 ---
+import interiorDesignersImg from '../assets/interior-designers.jpg';
+import architectsImg from '../assets/architects.jpg';
+import realEstateBrokersImg from '../assets/real-estate-brokers.jpg';
+
 const locale = Astro.currentLocale ?? 'en';
 const isBg = locale === 'bg';
 
-// Figma photo assets — expire 7 days from fetch. Replace with permanent hosted versions.
 const audiences = isBg ? [
   {
     id: 'interior-designers',
     heading: 'Интериорни дизайнери',
     body: 'Представете палитри от материали, сценарии за осветление и пространствени решения в пълномащабен VR. Нека клиентите усетят пространството преди да е поръчан и един мостер — итерирайте по-бързо и доставяйте с увереност.',
-    image: 'https://www.figma.com/api/mcp/asset/5635dc74-7499-4b0a-a772-57f9aaf9a691',
+    image: interiorDesignersImg.src,
     imageAlt: 'Интериорен дизайнер работи с клиент в VR среда',
   },
   {
     id: 'architects',
     heading: 'Архитекти',
     body: 'Комуникирайте обемите, пространствения поток и дизайнерската концепция с изключителна яснота. Разходете заинтересованите страни из визията си в мащаб 1:1 — ускорете одобренията и намалете скъпоструващите ревизии.',
-    image: 'https://www.figma.com/api/mcp/asset/63cdb50a-e9f7-4b82-8f0a-d5647755f523',
+    image: architectsImg.src,
     imageAlt: 'Архитект представя VR разходка на сграда',
   },
   {
     id: 'real-estate',
     heading: 'Брокери на имоти',
     body: 'Продавайте имоти преди да са построени. Предложете на отдалечени купувачи потапящи обиколки, представете проекти на зелено и се откроявайте на конкурентния пазар с презентации, които затварят сделки.',
-    image: 'https://www.figma.com/api/mcp/asset/3d1645f9-c174-4a23-acb5-b9819dcfad3a',
+    image: realEstateBrokersImg.src,
     imageAlt: 'Брокер показва VR обиколка на имот на клиенти',
   },
 ] : [
@@ -30,21 +33,21 @@ const audiences = isBg ? [
     id: 'interior-designers',
     heading: 'Interior Designers',
     body: 'Present material palettes, lighting scenarios, and spatial layouts in full-scale VR. Let clients feel the space before a single swatch is ordered — iterate faster, align expectations, and deliver with confidence.',
-    image: 'https://www.figma.com/api/mcp/asset/5635dc74-7499-4b0a-a772-57f9aaf9a691',
+    image: interiorDesignersImg.src,
     imageAlt: 'Interior designer working with a client in a VR environment',
   },
   {
     id: 'architects',
     heading: 'Architects',
     body: 'Communicate massing, spatial flow, and design intent with unmatched clarity. Walk stakeholders through your vision at 1:1 scale — accelerate approvals and reduce costly revisions.',
-    image: 'https://www.figma.com/api/mcp/asset/63cdb50a-e9f7-4b82-8f0a-d5647755f523',
+    image: architectsImg.src,
     imageAlt: 'Architect presenting a building walkthrough in VR',
   },
   {
     id: 'real-estate',
     heading: 'Real Estate Brokers',
     body: "Sell properties before they're built. Give remote buyers immersive tours, showcase off-plan developments, and stand out in competitive markets with presentations that close.",
-    image: 'https://www.figma.com/api/mcp/asset/3d1645f9-c174-4a23-acb5-b9819dcfad3a',
+    image: realEstateBrokersImg.src,
     imageAlt: 'Real estate broker showing a VR property tour to clients',
   },
 ];

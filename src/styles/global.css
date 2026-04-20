@@ -57,7 +57,7 @@ html.intro-playing #gallery-header {
 
 @layer components {
   .site-container {
-    @apply max-w-[1312px] px-4 md:px-8 lg:px-16;
+    @apply mx-auto w-full max-w-[1312px] px-4 md:px-8 lg:px-16 xl:px-20 2xl:max-w-[1600px] 2xl:px-28;
   }
 
   .section-badge {
@@ -69,6 +69,6 @@ html.intro-playing #gallery-header {
   }
 
   .btn-secondary {
-    @apply bg-[#111111] text-[#ECF0F9] font-onest font-medium text-sm px-6 py-3 rounded-full border border-[#2A2A2A] hover:bg-[#1A1A1A] transition-colors whitespace-nowrap inline-block;
+    @apply bg-transparent text-[#ECF0F9] font-onest font-medium text-sm px-6 py-3 rounded-full border border-white/30 hover:border-white/60 hover:bg-white/[0.06] transition-colors whitespace-nowrap inline-block;
   }
 }

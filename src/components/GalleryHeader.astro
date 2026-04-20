@@ -2,11 +2,14 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const locale    = Astro.currentLocale ?? 'en';
+const isBg      = locale === 'bg';
 const rawPath   = Astro.url.pathname;
 const canonPath = rawPath.replace(/^\/bg/, '') || '/';
 const enUrl     = getRelativeLocaleUrl('en', canonPath);
 const bgUrl     = getRelativeLocaleUrl('bg', canonPath);
 const homeUrl   = getRelativeLocaleUrl(locale, '/');
+const modalId   = isBg ? 'gallery-contact-modal-bg' : 'gallery-contact-modal';
+const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
 ---
 
 <!--
@@ -79,11 +82,13 @@ const homeUrl   = getRelativeLocaleUrl(locale, '/');
         {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
       </a>
 
-      <!-- Request a Demo — transitions from ghost to yellow -->
-      <a href="#contact"
-         class="gl-cta font-onest font-medium text-[14px] leading-5 h-11 px-[22px] rounded-full flex items-center justify-center transition-colors">
-        {locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}
-      </a>
+      <!-- Request a Session — transitions from ghost to yellow -->
+      <button
+        data-open-modal={modalId}
+        class="gl-cta font-onest font-medium text-[14px] leading-5 h-11 px-[22px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-0"
+      >
+        {sessionLabel}
+      </button>
 
       <!-- Language switcher -->
       <div class="relative" id="gl-lang-switcher">
@@ -179,7 +184,12 @@ const homeUrl   = getRelativeLocaleUrl(locale, '/');
         {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
       </a>
       <div class="w-full pt-1">
-        <a href="#contact" class="font-onest font-medium text-sm text-[#141414] bg-[#FFD366] h-11 rounded-full flex items-center justify-center">{locale === 'bg' ? 'Заявете демо' : 'Request a Demo'}</a>
+        <button
+          data-open-modal={modalId}
+          class="font-onest font-medium text-sm text-[#141414] bg-[#FFD366] h-11 rounded-full flex items-center justify-center w-full cursor-pointer border-0"
+        >
+          {sessionLabel}
+        </button>
       </div>
       <div class="pt-3 pb-1 flex items-center gap-3">
         <a href={enUrl} class="flex items-center gap-2 px-3 py-2 rounded-lg gl-mobile-link font-onest font-medium text-sm transition-colors"

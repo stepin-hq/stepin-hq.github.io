@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryHeader from '../../components/GalleryHeader.astro';
 import Footer from '../../components/Footer.astro';
+import ContactModal from '../../components/ContactModal.astro';
 
 import projectionWalkthroughsImg from '../../assets/projection-walkthroughs.jpg';
 import curatedInteriorFurnitureImg from '../../assets/curated-interior-and-furniture.jpg';
@@ -78,9 +79,8 @@ const brands = [
         var h = document.getElementById('gallery-header');
         if (h) h.classList.add('is-light');
         document.documentElement.classList.add('gl-repeat-load');
-        document.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(function(el) {
-          el.classList.add('is-light');
-        });
+        // Use html class instead of querySelectorAll — elements don't exist yet in the DOM
+        document.documentElement.classList.add('gl-is-light');
         var bgSvg = document.getElementById('gl-bg-svg');
         if (bgSvg) bgSvg.style.opacity = '0.6';
       }
@@ -99,9 +99,12 @@ const brands = [
             станете свидетели на впечатляващи лазерни презентации — всичко на едно място.
           </p>
           <div class="flex flex-wrap gap-4">
-            <a href="#contact" class="font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] flex items-center justify-center">
-              Заявете демо
-            </a>
+            <button
+              data-open-modal="gallery-contact-modal-bg"
+              class="font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] flex items-center justify-center cursor-pointer"
+            >
+              Заявете сесия
+            </button>
             <a href="#services" class="gl-outline-btn font-onest font-medium text-sm px-[22px] h-11 rounded-full border flex items-center justify-center transition-colors">
               Разгледайте услугите
             </a>
@@ -201,15 +204,31 @@ const brands = [
           Резервирайте потапяща VR сесия за вашия екип или клиенти още днес.
           Изживейте силата на пространствения дизайн на живо.
         </p>
-        <a href="mailto:hello@stepin-hq.com"
-           class="inline-flex items-center justify-center font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414]">
-          Заявете демо
-        </a>
+        <button
+          data-open-modal="gallery-contact-modal-bg"
+          class="inline-flex items-center justify-center font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] cursor-pointer"
+        >
+          Заявете сесия
+        </button>
       </div>
     </div>
   </section>
 
   <Footer theme="gallery" />
+
+  <ContactModal
+    id="gallery-contact-modal-bg"
+    accessKey="3c877b51-6133-49d4-b064-171d8105580f"
+    theme="light"
+    title="Заявете сесия"
+    titleFontFamily="Antic Didone"
+    subtitle="Оставете данните си и ще потвърдим вашата резервация."
+    namePlaceholder="Вашето име"
+    emailPlaceholder="Вашият имейл"
+    messagePlaceholder="Разкажете ни за вашия проект или въпроси"
+    submitLabel="Заявете сесия"
+    successMessage="Благодарим! Ще потвърдим сесията ви скоро."
+  />
 </BaseLayout>
 
 <style>
@@ -230,6 +249,11 @@ const brands = [
   .gl-body.is-light { color: #817065; }
   .gl-outline-btn { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.25); transition: color 1.4s ease, border-color 1.4s ease; }
   .gl-outline-btn.is-light { color: #2e251f; border-color: #bb9880; }
+
+  /* ── Pre-paint light state (hard refresh): html class set by inline script ── */
+  html.gl-is-light .gl-heading    { color: #474339 !important; transition: none !important; }
+  html.gl-is-light .gl-body       { color: #817065 !important; transition: none !important; }
+  html.gl-is-light .gl-outline-btn { color: #2e251f !important; border-color: #bb9880 !important; transition: none !important; }
 
   .arch-photo { width: 148px; height: 210px; border-radius: 9999px 9999px 0 0; overflow: hidden; flex-shrink: 0; align-self: flex-end; }
   .arch-photo--tall { height: 260px; align-self: flex-start; }

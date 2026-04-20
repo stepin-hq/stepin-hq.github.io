@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryHeader from '../components/GalleryHeader.astro';
 import Footer from '../components/Footer.astro';
+import ContactModal from '../components/ContactModal.astro';
 
 import projectionWalkthroughsImg from '../assets/projection-walkthroughs.jpg';
 import curatedInteriorFurnitureImg from '../assets/curated-interior-and-furniture.jpg';
@@ -82,9 +83,8 @@ const brands = [
         var h = document.getElementById('gallery-header');
         if (h) h.classList.add('is-light');
         document.documentElement.classList.add('gl-repeat-load');
-        document.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(function(el) {
-          el.classList.add('is-light');
-        });
+        // Use html class instead of querySelectorAll — elements don't exist yet in the DOM
+        document.documentElement.classList.add('gl-is-light');
         var bgSvg = document.getElementById('gl-bg-svg');
         if (bgSvg) bgSvg.style.opacity = '0.6';
       }
@@ -96,18 +96,21 @@ const brands = [
 
         <!-- Left: text -->
         <div>
-          <h1 class="gl-heading font-normal leading-[1.05] mb-6 text-[42px] lg:text-[58px]"
+          <h1 class="gl-heading font-normal leading-[1.05] mb-6 text-[42px] lg:text-[58px] xl:text-[72px] 2xl:text-[86px]"
               style="font-family: 'Antic Didone', serif;">
             A Premium Showroom<br />Experience
           </h1>
-          <p class="gl-body font-onest font-normal text-lg mb-8 max-w-[480px]">
+          <p class="gl-body font-onest font-normal text-lg xl:text-xl mb-8 max-w-[480px] xl:max-w-[580px]">
             Explore curated furniture, walk through spaces in VR, and witness
             high-impact laser presentations — all under one roof.
           </p>
           <div class="flex flex-wrap gap-4">
-            <a href="#contact" class="font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] flex items-center justify-center">
-              Request a Demo
-            </a>
+            <button
+              data-open-modal="gallery-contact-modal"
+              class="font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] flex items-center justify-center cursor-pointer"
+            >
+              Request a Session
+            </button>
             <a href="#services" class="gl-outline-btn font-onest font-medium text-sm px-[22px] h-11 rounded-full border flex items-center justify-center transition-colors">
               Explore our Features
             </a>
@@ -145,16 +148,16 @@ const brands = [
   </section>
 
   <!-- ── Our Services ───────────────────────────────────────────────────────── -->
-  <section id="services" class="bg-[#eae4d6] py-20">
+  <section id="services" class="bg-[#eae4d6] py-20 xl:py-28 2xl:py-36">
     <div class="site-container">
-      <h2 class="mb-12 font-normal text-[#474339] text-[36px] leading-[1.1]"
+      <h2 class="mb-12 font-normal text-[#474339] text-[36px] xl:text-[48px] 2xl:text-[58px] leading-[1.1]"
           style="font-family: 'Antic Didone', serif;">
         Our Services
       </h2>
-      <div class="grid lg:grid-cols-3 gap-6">
+      <div class="grid lg:grid-cols-3 gap-6 xl:gap-8">
         {services.map((s) => (
           <div class="bg-[#faf9ee] overflow-hidden">
-            <div class="h-[220px] overflow-hidden">
+            <div class="h-[220px] xl:h-[280px] overflow-hidden">
               <img src={s.img} alt={s.title} class="w-full h-full object-cover" />
             </div>
             <div class="p-6">
@@ -168,10 +171,10 @@ const brands = [
   </section>
 
   <!-- ── Brands We Offer ────────────────────────────────────────────────────── -->
-  <section class="bg-[#faf9ee] border-t border-[#d8d1ca] py-20">
+  <section class="bg-[#faf9ee] border-t border-[#d8d1ca] py-20 xl:py-28 2xl:py-36">
     <div class="site-container">
       <div class="mb-12">
-        <h2 class="font-normal text-[#474339] text-[36px] leading-[1.1] mb-3"
+        <h2 class="font-normal text-[#474339] text-[36px] xl:text-[48px] 2xl:text-[58px] leading-[1.1] mb-3"
             style="font-family: 'Antic Didone', serif;">
           Brands We Offer
         </h2>
@@ -208,15 +211,31 @@ const brands = [
           Book an immersive walkthrough session for your team or clients today.
           Experience the power of spatial design firsthand.
         </p>
-        <a href="mailto:hello@stepin-hq.com"
-           class="inline-flex items-center justify-center font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414]">
-          Request a Demo
-        </a>
+        <button
+          data-open-modal="gallery-contact-modal"
+          class="inline-flex items-center justify-center font-onest font-medium text-sm px-[22px] h-11 rounded-full bg-[#FFD366] text-[#141414] cursor-pointer"
+        >
+          Request a Session
+        </button>
       </div>
     </div>
   </section>
 
   <Footer theme="gallery" />
+
+  <ContactModal
+    id="gallery-contact-modal"
+    accessKey="3c877b51-6133-49d4-b064-171d8105580f"
+    theme="light"
+    title="Request a Session"
+    titleFontFamily="Antic Didone"
+    subtitle="Leave your details and we'll be in touch to confirm your booking."
+    namePlaceholder="Your name"
+    emailPlaceholder="Your email"
+    messagePlaceholder="Tell us about your project or any questions you have"
+    submitLabel="Request a Session"
+    successMessage="Thank you — we'll confirm your session shortly."
+  />
 </BaseLayout>
 
 <style>
@@ -258,6 +277,15 @@ const brands = [
   .gl-outline-btn.is-light {
     color: #2e251f;
     border-color: #bb9880;
+  }
+
+  /* ── Pre-paint light state (hard refresh): html class set by inline script ── */
+  html.gl-is-light .gl-heading    { color: #474339 !important; transition: none !important; }
+  html.gl-is-light .gl-body       { color: #817065 !important; transition: none !important; }
+  html.gl-is-light .gl-outline-btn {
+    color: #2e251f !important;
+    border-color: #bb9880 !important;
+    transition: none !important;
   }
 
   /* ── Dark overlay — top-to-bottom wipe via clip-path ────────────────────── */

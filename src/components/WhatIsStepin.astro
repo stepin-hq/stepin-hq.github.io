@@ -41,7 +41,7 @@ const cards = isBg ? [
 ];
 ---
 
-<section id="application" class="py-20 lg:py-28">
+<section id="application" class="py-20 lg:py-28 xl:py-36 2xl:py-44">
   <div class="site-container">
     <!-- Header row -->
     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8 mb-10">
@@ -50,7 +50,7 @@ const cards = isBg ? [
           <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
           <span>{isBg ? 'ПРИЛОЖЕНИЕ' : 'APPLICATION'}</span>
         </div>
-        <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] text-center md:text-left"
+        <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] xl:text-[44px] 2xl:text-[52px] text-center md:text-left"
           style="text-shadow: 0px 1px 4px #2c4481;">
           {isBg ? <>Какво е STEP<span class="font-normal">IN</span>?</> : <>What is STEP<span class="font-normal">IN</span>?</>}
         </h2>
@@ -65,9 +65,9 @@ const cards = isBg ? [
     <!-- Cards — gap-[4px] to match Figma, no border-radius -->
     <div class="flex flex-col md:flex-row gap-[4px]">
       {cards.map(card => (
-        <div class="bg-[#191C22] flex-1 flex flex-col gap-6 items-center md:items-start px-6 md:px-12 py-8">
-          <img src={card.icon} alt="" class="w-8 h-8 shrink-0" />
-          <h3 class="font-onest font-bold text-[#EEF3FF] text-xl">{card.title}</h3>
+        <div class="bg-[#191C22] flex-1 flex flex-col gap-6 items-center md:items-start px-6 md:px-12 xl:px-16 py-8 xl:py-12">
+          <img src={card.icon} alt="" class="w-8 h-8 xl:w-10 xl:h-10 shrink-0" />
+          <h3 class="font-onest font-bold text-[#EEF3FF] text-xl xl:text-2xl">{card.title}</h3>
           <p class="font-onest text-[#CDD4E4] text-sm leading-relaxed text-center md:text-left">{card.body}</p>
         </div>
       ))}

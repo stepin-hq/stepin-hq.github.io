@@ -1,8 +1,12 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import VideoModal from './VideoModal.astro';
 const locale = Astro.currentLocale ?? 'en';
 const isBg = locale === 'bg';
 const homeUrl = getRelativeLocaleUrl(locale, '/');
+
+// ── Replace with your YouTube video ID (the part after ?v= in the URL) ──────
+const DEMO_VIDEO_ID = 'dQw4w9WgXcQ';
 ---
 
 <section class="relative overflow-hidden min-h-screen flex items-center">
@@ -16,7 +20,7 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
   </div>
 
   <!-- Content — hidden until grid animation completes -->
-  <div class="site-container relative z-10 py-24 lg:py-32 hero-content">
+  <div class="site-container relative z-10 py-24 lg:py-32 xl:py-40 2xl:py-48 hero-content">
     <!-- Badge -->
     <div class="section-badge mb-6 mx-auto md:mx-0 w-fit">
       <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
@@ -29,7 +33,9 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
         text-[28px] text-center tracking-[-0.56px]
         md:text-[48px] md:text-left md:tracking-normal
         lg:text-[64px]
-        max-w-[820px] mx-auto md:mx-0"
+        xl:text-[80px] xl:tracking-[-2px]
+        2xl:text-[96px] 2xl:tracking-[-3px]
+        max-w-[820px] xl:max-w-[1020px] 2xl:max-w-[1200px] mx-auto md:mx-0"
       style="text-shadow: 0px 1px 4px #2c4481;"
     >
       {isBg ? (
@@ -40,9 +46,10 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
     </h1>
 
     <!-- Subtext -->
-    <p class="font-onest font-normal text-[#CDD4E4] mb-10 max-w-[600px]
+    <p class="font-onest font-normal text-[#CDD4E4] mb-10 max-w-[600px] xl:max-w-[720px]
       text-base text-center
       md:text-[18px] md:text-left
+      xl:text-[20px] 2xl:text-[22px]
       mx-auto md:mx-0">
       {isBg
         ? 'B2B платформа, превръщаща 3D модели в споделими VR преживявания — ускорете процеса, впечатлете клиентите и затваряйте сделки с увереност.'
@@ -52,10 +59,12 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
     <!-- CTAs -->
     <div class="flex flex-wrap gap-3 justify-center md:justify-start">
       <a href={`${homeUrl}#contact`} class="btn-primary flex-1 sm:flex-none text-center">{isBg ? 'Заявете демо' : 'Request a Demo'}</a>
-      <a href={getRelativeLocaleUrl(locale, '/gallery')} class="btn-secondary flex-1 sm:flex-none text-center">{isBg ? 'Разгледайте галерията' : 'Watch the Experience'}</a>
+      <button data-open-video="hero-video-modal" class="btn-secondary flex-1 sm:flex-none text-center cursor-pointer">{isBg ? 'Гледайте изживяването' : 'Watch the Experience'}</button>
     </div>
   </div>
 </section>
+
+<VideoModal id="hero-video-modal" videoId={DEMO_VIDEO_ID} />
 
 <style>
   /* ── Hero content ────────────────────────────────────────────────────────── */

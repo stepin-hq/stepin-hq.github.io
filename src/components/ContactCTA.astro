@@ -1,14 +1,15 @@
 ---
+import ContactModal from './ContactModal.astro';
 const locale = Astro.currentLocale ?? 'en';
 const isBg = locale === 'bg';
 ---
 
-<section id="contact" class="py-20 lg:py-28">
+<section id="contact" class="py-20 lg:py-28 xl:py-36 2xl:py-44">
   <div class="site-container">
     <div class="bg-[#191C22] rounded-[4px] p-8 md:p-12 lg:p-16">
       <div class="max-w-[672px]">
         <h2
-          class="font-onest font-bold text-[#EEF3FF] text-3xl md:text-[44px] leading-tight mb-6 tracking-[-1.2px]"
+          class="font-onest font-bold text-[#EEF3FF] text-3xl md:text-[44px] xl:text-[54px] 2xl:text-[64px] leading-tight mb-6 tracking-[-1.2px]"
           style="text-shadow: 0px 1px 4px #2c4481;"
         >
           {isBg ? 'Готови ли сте да влезете в следващия проект?' : 'Ready to step in your next project?'}
@@ -18,8 +19,28 @@ const isBg = locale === 'bg';
             ? 'Резервирайте потапяща разходка за вашия екип или клиенти още днес. Преживейте силата на пространствения дизайн от първо лице.'
             : 'Book an immersive walkthrough session for your team or clients today. Experience the power of spatial design firsthand.'}
         </p>
-        <a href="mailto:hello@stepin-hq.com" class="btn-primary inline-block">{isBg ? 'Заявете демо' : 'Request a Demo'}</a>
+        <button
+          class="btn-primary"
+          data-open-modal="main-contact-modal"
+        >
+          {isBg ? 'Заявете демо' : 'Request a Demo'}
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<ContactModal
+  id="main-contact-modal"
+  accessKey="77915ddd-f20d-4462-a66d-95afa009cfb1"
+  theme="dark"
+  title={isBg ? 'Заявете демо' : 'Request a Demo'}
+  subtitle={isBg
+    ? 'Оставете вашите данни и ще се свържем с вас.'
+    : "Leave your details and we'll get back to you."}
+  namePlaceholder={isBg ? 'Вашето име' : 'Your name'}
+  emailPlaceholder={isBg ? 'Вашият имейл' : 'Your email'}
+  messagePlaceholder={isBg ? 'Вашето съобщение' : 'Your message'}
+  submitLabel={isBg ? 'Изпратете' : 'Send Message'}
+  successMessage={isBg ? 'Благодарим! Ще се свържем скоро.' : "Thank you \u2014 we'll be in touch shortly."}
+/>

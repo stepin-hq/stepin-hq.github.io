@@ -45,24 +45,35 @@ const {
       </script>
     )}
     <script>
-      // Before each View Transitions swap: if the gallery intro has already played,
-      // patch the incoming document before it's painted so there's no dark flash.
+      // Before each View Transitions swap: patch the incoming document before paint
+      // so there are no dark flashes on repeat/language-switch loads.
       document.addEventListener('astro:before-swap', (e) => {
         if (!sessionStorage.getItem('stepin-intro-played')) return;
         const newDoc = (e as any).newDocument as Document;
+
+        // ── Gallery page patches ─────────────────────────────────────────────
         const overlay = newDoc.getElementById('gl-dark-overlay');
         if (overlay) overlay.className = 'gl-overlay-instant-hide';
-        const grid = newDoc.querySelector('.gl-grid-host') as HTMLElement | null;
-        if (grid) grid.style.display = 'none';
+        const glGrid = newDoc.querySelector('.gl-grid-host') as HTMLElement | null;
+        if (glGrid) glGrid.style.display = 'none';
         const header = newDoc.getElementById('gallery-header');
         if (header) header.classList.add('is-light');
         newDoc.documentElement.classList.add('gl-repeat-load');
-        // Snap text elements to light state before paint — prevents invisible text flash
+        newDoc.documentElement.classList.add('gl-is-light');
         newDoc.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(el => {
           (el as HTMLElement).classList.add('is-light');
         });
         const bgSvg = newDoc.getElementById('gl-bg-svg') as HTMLElement | null;
         if (bgSvg) bgSvg.style.opacity = '0.6';
+
+        // ── Main page (gray theme) patches ──────────────────────────────────
+        // Remove the intro overlay before paint so there's no dark flash
+        newDoc.getElementById('gi-intro-layer')?.remove();
+        newDoc.getElementById('gi-defs')?.remove();
+        // Ensure hero content is visible immediately
+        newDoc.querySelectorAll<HTMLElement>('.hero-content').forEach(el => {
+          el.style.opacity = '1';
+        });
       });
     </script>
   </head>

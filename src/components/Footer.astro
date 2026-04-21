@@ -8,12 +8,7 @@ const isDark = theme === 'dark';
 const isGallery = theme === 'gallery';
 const locale = Astro.currentLocale ?? 'en';
 const isBg = locale === 'bg';
-const rawPath = Astro.url.pathname;
-const canonPath = rawPath.replace(/^\/bg\/?/, '/') || '/';
-const isGray = canonPath.startsWith('/gray');
-const homeUrl = isGray
-  ? getRelativeLocaleUrl(locale, '/gray')
-  : getRelativeLocaleUrl(locale, '/');
+const homeUrl = getRelativeLocaleUrl(locale, '/');
 ---
 
 {isGallery ? (

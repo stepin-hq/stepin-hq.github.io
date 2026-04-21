@@ -58,7 +58,7 @@ const DEMO_VIDEO_ID = 'dQw4w9WgXcQ';
 
     <!-- CTAs -->
     <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-      <a href={`${homeUrl}#contact`} class="btn-primary flex-1 sm:flex-none text-center">{isBg ? 'Заявете демо' : 'Request a Demo'}</a>
+      <button data-open-modal="main-contact-modal" class="btn-primary flex-1 sm:flex-none text-center cursor-pointer border-0">{isBg ? 'Заявете демо' : 'Request a Demo'}</button>
       <button data-open-video="hero-video-modal" class="btn-secondary flex-1 sm:flex-none text-center cursor-pointer">{isBg ? 'Гледайте изживяването' : 'Watch the Experience'}</button>
     </div>
   </div>

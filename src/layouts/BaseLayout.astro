@@ -52,10 +52,6 @@ const {
         const newDoc = (e as any).newDocument as Document;
 
         // ── Gallery page patches ─────────────────────────────────────────────
-        const overlay = newDoc.getElementById('gl-dark-overlay');
-        if (overlay) overlay.className = 'gl-overlay-instant-hide';
-        const glGrid = newDoc.querySelector('.gl-grid-host') as HTMLElement | null;
-        if (glGrid) glGrid.style.display = 'none';
         const header = newDoc.getElementById('gallery-header');
         if (header) header.classList.add('is-light');
         newDoc.documentElement.classList.add('gl-repeat-load');
@@ -63,8 +59,6 @@ const {
         newDoc.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(el => {
           (el as HTMLElement).classList.add('is-light');
         });
-        const bgSvg = newDoc.getElementById('gl-bg-svg') as HTMLElement | null;
-        if (bgSvg) bgSvg.style.opacity = '0.6';
 
         // ── Main page (gray theme) patches ──────────────────────────────────
         // Remove the intro overlay before paint so there's no dark flash

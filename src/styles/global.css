@@ -20,10 +20,6 @@ html.intro-playing .hero-content {
   opacity: 0;
 }
 
-/* On gallery repeat loads, show hero content immediately (no fade-in needed) */
-html.gl-repeat-load .gallery-hero-content {
-  opacity: 1 !important;
-}
 
 
 /* Gallery header — hide during intro like the main header */

@@ -2,43 +2,13 @@
 import purposeBuiltSrc from '../assets/purpose-built.svg?url';
 import modelsByYouSrc from '../assets/models-by-you.svg?url';
 import exploreInVirtualSrc from '../assets/explore-in-virtual.svg?url';
+import { useTranslations } from '../i18n';
 
 const locale = Astro.currentLocale ?? 'en';
-const isBg = locale === 'bg';
+const t = useTranslations(locale);
 
-const cards = isBg ? [
-  {
-    title: 'Специализирана',
-    body: 'Облачна VR платформа за специалисти в недвижимите имоти, архитектурата и интериорния дизайн.',
-    icon: purposeBuiltSrc,
-  },
-  {
-    title: 'Вашите модели',
-    body: 'Качете своите 3D модели — ние ги превръщаме в споделими, потапящи разходки.',
-    icon: modelsByYouSrc,
-  },
-  {
-    title: 'Виртуално изживяване',
-    body: 'Клиентите разглеждат проектите ви чрез VR, AR или уеб браузър — без инсталация.',
-    icon: exploreInVirtualSrc,
-  },
-] : [
-  {
-    title: 'Purpose-Built',
-    body: 'A cloud-based VR platform for real estate, architecture, and interior design professionals.',
-    icon: purposeBuiltSrc,
-  },
-  {
-    title: 'Models by You',
-    body: 'Upload your 3D models — we turn them into shareable, immersive walkthroughs.',
-    icon: modelsByYouSrc,
-  },
-  {
-    title: 'Explore in Virtual',
-    body: 'Clients explore projects in VR, AR, or any web browser — no app install required.',
-    icon: exploreInVirtualSrc,
-  },
-];
+const icons = [purposeBuiltSrc, modelsByYouSrc, exploreInVirtualSrc];
+const cards = t.what_is_stepin.cards.map((card, i) => ({ ...card, icon: icons[i] }));
 ---
 
 <section id="application" class="py-20 lg:py-28 xl:py-36 2xl:py-44">
@@ -48,17 +18,15 @@ const cards = isBg ? [
       <div class="flex flex-col gap-2 items-center md:items-start">
         <div class="section-badge w-fit">
           <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
-          <span>{isBg ? 'ПРИЛОЖЕНИЕ' : 'APPLICATION'}</span>
+          <span>{t.what_is_stepin.badge}</span>
         </div>
         <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] xl:text-[44px] 2xl:text-[52px] text-center md:text-left"
           style="text-shadow: 0px 1px 4px #2c4481;">
-          {isBg ? <>Какво е STEP<span class="font-normal">IN</span>?</> : <>What is STEP<span class="font-normal">IN</span>?</>}
+          {t.what_is_stepin.title}
         </h2>
       </div>
       <p class="font-onest text-[#CDD4E4] text-sm leading-relaxed max-w-[600px] md:pt-14 text-center md:text-left mx-auto md:mx-0">
-        {isBg
-          ? 'Специализираме се в облачен VR, който превръща вашите 3D модели в потапящи, споделими разходки — достъпни отвсякъде. Представяйте, коментирайте и получавайте одобрения в реално време, ускорявайки продажбените цикли с пространствени преживявания, които изграждат доверие.'
-          : 'We specialise in cloud-based VR that transforms your 3D models into immersive, shareable walkthroughs — accessible anywhere. Present, annotate, and get approvals in real-time collaborative sessions, accelerating sales cycles with spatial experiences that build confidence and close deals.'}
+        {t.what_is_stepin.description}
       </p>
     </div>
 

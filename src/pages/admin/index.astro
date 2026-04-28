@@ -1,0 +1,260 @@
+---
+// CMS admin — plain HTML, no Astro layouts or i18n
+export const prerender = true;
+---
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>STEP IN — Content Manager</title>
+    <script is:inline>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </head>
+  <body>
+    <script is:inline>
+      // CMS global is injected by the Decap CDN script in <head>
+      const contentFields = [
+        {
+          label: 'Hero', name: 'hero', widget: 'object',
+          fields: [
+            { label: 'Badge text', name: 'badge', widget: 'string' },
+            { label: 'Title — start', name: 'title_start', widget: 'string' },
+            { label: 'Title — highlight (blue gradient)', name: 'title_highlight', widget: 'string' },
+            { label: 'Title — end', name: 'title_end', widget: 'string' },
+            { label: 'Subtitle', name: 'subtitle', widget: 'text' },
+            { label: 'CTA — Request Demo button', name: 'cta_demo', widget: 'string' },
+            { label: 'CTA — Watch Video button', name: 'cta_video', widget: 'string' },
+          ]
+        },
+        {
+          label: 'Features', name: 'features', widget: 'object',
+          fields: [
+            { label: 'Badge text', name: 'badge', widget: 'string' },
+            { label: 'Title', name: 'title', widget: 'string' },
+            {
+              label: 'Feature items', name: 'items', widget: 'list',
+              fields: [
+                { label: 'Title', name: 'title', widget: 'string' },
+                { label: 'Body', name: 'body', widget: 'text' },
+                { label: 'Coming Soon label (leave blank to hide)', name: 'coming_soon_label', widget: 'string', required: false },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'Workflow — Built for your workflow', name: 'workflow', widget: 'object',
+          fields: [
+            { label: 'Badge text', name: 'badge', widget: 'string' },
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Subtitle', name: 'subtitle', widget: 'text' },
+            {
+              label: 'Audiences', name: 'audiences', widget: 'list',
+              fields: [
+                { label: 'Heading', name: 'heading', widget: 'string' },
+                { label: 'Body', name: 'body', widget: 'text' },
+                { label: 'Photo', name: 'image', widget: 'image' },
+                { label: 'Image alt text', name: 'image_alt', widget: 'string' },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'What is STEPIN?', name: 'what_is_stepin', widget: 'object',
+          fields: [
+            { label: 'Badge text', name: 'badge', widget: 'string' },
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Description', name: 'description', widget: 'text' },
+            {
+              label: 'Cards', name: 'cards', widget: 'list',
+              fields: [
+                { label: 'Title', name: 'title', widget: 'string' },
+                { label: 'Body', name: 'body', widget: 'text' },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'Gallery Header', name: 'gallery_header', widget: 'object',
+          fields: [
+            { label: 'Gallery wordmark', name: 'gallery_label', widget: 'string' },
+            { label: 'Back to main site link', name: 'back_to_main', widget: 'string' },
+            { label: 'Request Session button', name: 'request_session', widget: 'string' },
+          ]
+        },
+        {
+          label: 'Footer', name: 'footer', widget: 'object',
+          fields: [
+            { label: 'Brand tagline', name: 'tagline', widget: 'text' },
+            { label: 'Copyright line', name: 'copyright', widget: 'string' },
+            { label: 'Navigation heading', name: 'nav_heading', widget: 'string' },
+            { label: 'Nav — Home', name: 'nav_home', widget: 'string' },
+            { label: 'Nav — Application', name: 'nav_application', widget: 'string' },
+            { label: 'Nav — Features', name: 'nav_features', widget: 'string' },
+            { label: 'Nav — How it Works', name: 'nav_how_it_works', widget: 'string' },
+            { label: 'Nav — Gallery', name: 'nav_gallery', widget: 'string' },
+            { label: 'Gallery footer — Back to main site', name: 'back_to_main', widget: 'string' },
+          ]
+        },
+        {
+          label: 'How it Works', name: 'how_it_works', widget: 'object',
+          fields: [
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Subtitle', name: 'subtitle', widget: 'text' },
+            {
+              label: 'Steps', name: 'steps', widget: 'list',
+              fields: [
+                { label: 'Number', name: 'number', widget: 'string' },
+                { label: 'Title', name: 'title', widget: 'string' },
+                { label: 'Body', name: 'body', widget: 'text' },
+                { label: 'Icon alt text', name: 'icon_alt', widget: 'string' },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'Contact CTA', name: 'contact_cta', widget: 'object',
+          fields: [
+            { label: 'Section title', name: 'title', widget: 'string' },
+            { label: 'Section subtitle', name: 'subtitle', widget: 'text' },
+            { label: 'CTA button', name: 'cta', widget: 'string' },
+            { label: 'Modal title', name: 'modal_title', widget: 'string' },
+            { label: 'Modal subtitle', name: 'modal_subtitle', widget: 'string' },
+            { label: 'Name field placeholder', name: 'name_placeholder', widget: 'string' },
+            { label: 'Email field placeholder', name: 'email_placeholder', widget: 'string' },
+            { label: 'Message field placeholder', name: 'message_placeholder', widget: 'string' },
+            { label: 'Submit button label', name: 'submit_label', widget: 'string' },
+            { label: 'Success message', name: 'success_message', widget: 'string' },
+          ]
+        },
+      ];
+
+      const galleryFields = [
+        { label: 'Browser tab title', name: 'page_title', widget: 'string' },
+        {
+          label: 'Hero', name: 'hero', widget: 'object',
+          fields: [
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Body', name: 'body', widget: 'text' },
+            { label: 'Primary CTA button', name: 'cta_primary', widget: 'string' },
+            { label: 'Secondary CTA button', name: 'cta_secondary', widget: 'string' },
+            { label: 'Hero image', name: 'hero_image', widget: 'image' },
+            { label: 'Watermark text', name: 'watermark', widget: 'string' },
+          ]
+        },
+        {
+          label: 'Services section', name: 'services', widget: 'object',
+          fields: [
+            { label: 'Section title', name: 'title', widget: 'string' },
+            {
+              label: 'Service items', name: 'items', widget: 'list',
+              fields: [
+                { label: 'Title', name: 'title', widget: 'string' },
+                { label: 'Description', name: 'desc', widget: 'text' },
+                { label: 'Photo', name: 'image', widget: 'image' },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'Brands section', name: 'brands', widget: 'object',
+          fields: [
+            { label: 'Section title', name: 'title', widget: 'string' },
+            { label: 'Section subtitle', name: 'subtitle', widget: 'text' },
+            {
+              label: 'Brand items', name: 'items', widget: 'list',
+              fields: [
+                { label: 'Brand name', name: 'name', widget: 'string' },
+                { label: 'Description', name: 'desc', widget: 'text' },
+                { label: 'Logo image', name: 'logo', widget: 'image', required: false },
+              ]
+            },
+          ]
+        },
+        {
+          label: 'Reserve Session CTA', name: 'reserve_cta', widget: 'object',
+          fields: [
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Body', name: 'body', widget: 'text' },
+            { label: 'CTA button', name: 'cta', widget: 'string' },
+          ]
+        },
+        {
+          label: 'Contact modal', name: 'contact_modal', widget: 'object',
+          fields: [
+            { label: 'Modal title', name: 'title', widget: 'string' },
+            { label: 'Modal subtitle', name: 'subtitle', widget: 'string' },
+            { label: 'Name placeholder', name: 'name_placeholder', widget: 'string' },
+            { label: 'Email placeholder', name: 'email_placeholder', widget: 'string' },
+            { label: 'Message placeholder', name: 'message_placeholder', widget: 'string' },
+            { label: 'Submit button', name: 'submit_label', widget: 'string' },
+            { label: 'Success message', name: 'success_message', widget: 'string' },
+          ]
+        },
+      ];
+
+      window.addEventListener('load', function () {
+      CMS.init({
+        config: {
+          local_backend: true,
+          backend: {
+            name: 'github',
+            repo: 'stepin-hq/stepin-hq.github.io',
+            branch: 'main',
+            auth_type: 'pkce',
+            app_id: 'REPLACE_WITH_GITHUB_OAUTH_APP_CLIENT_ID',
+          },
+          locale: 'en',
+          media_folder: 'public/images',
+          public_folder: '/images',
+          collections: [
+            {
+              name: 'content',
+              label: 'Main Page',
+              editor: { preview: false },
+              files: [
+                {
+                  name: 'en',
+                  label: 'English (EN)',
+                  file: 'src/i18n/en.json',
+                  format: 'json',
+                  fields: contentFields,
+                },
+                {
+                  name: 'bg',
+                  label: 'Bulgarian (BG)',
+                  file: 'src/i18n/bg.json',
+                  format: 'json',
+                  fields: contentFields,
+                },
+              ],
+            },
+            {
+              name: 'gallery',
+              label: 'Gallery',
+              editor: { preview: false },
+              files: [
+                {
+                  name: 'en',
+                  label: 'English (EN)',
+                  file: 'src/i18n/en.gallery.json',
+                  format: 'json',
+                  fields: galleryFields,
+                },
+                {
+                  name: 'bg',
+                  label: 'Bulgarian (BG)',
+                  file: 'src/i18n/bg.gallery.json',
+                  format: 'json',
+                  fields: galleryFields,
+                },
+              ],
+            },
+          ],
+        },
+      });
+      }); // end window.addEventListener
+    </script>
+  </body>
+</html>

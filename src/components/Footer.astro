@@ -1,5 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '../i18n';
+
 interface Props {
   theme?: 'dark' | 'light' | 'gallery';
 }
@@ -7,7 +9,7 @@ const { theme = 'dark' } = Astro.props;
 const isDark = theme === 'dark';
 const isGallery = theme === 'gallery';
 const locale = Astro.currentLocale ?? 'en';
-const isBg = locale === 'bg';
+const t = useTranslations(locale);
 const homeUrl = getRelativeLocaleUrl(locale, '/');
 ---
 
@@ -36,10 +38,10 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
             </svg>
           </a>
           <p class="font-onest text-sm text-[#2E251F]/60 leading-relaxed max-w-xs">
-            {isBg ? 'Премиум VR преживявания за недвижими имоти, дизайн и търговия. Стъпете в бъдещето.' : 'Premium VR experiences for real estate, design, and retail. Step into the future.'}
+            {t.footer.tagline}
           </p>
           <p class="font-onest text-xs text-[#2E251F]/40 mt-6">
-            {isBg ? '© 2026 STEP IN. Всички права запазени.' : '© 2026 STEP IN. All rights reserved.'}
+            {t.footer.copyright}
           </p>
         </div>
 
@@ -48,8 +50,8 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          {isBg ? 'Към основния сайт' : 'Back to main site'}
-        </a>
+          {t.footer.back_to_main}
+</a>
       </div>
     </div>
   </footer>
@@ -104,25 +106,25 @@ const homeUrl = getRelativeLocaleUrl(locale, '/');
           )}
         </a>
         <p class={`font-onest text-sm leading-relaxed ${isDark ? 'text-[#CDD4E4]' : 'text-[#4A4F5C]'}`}>
-          {isBg ? 'Премиум VR преживявания за недвижими имоти, дизайн и търговия. Стъпете в бъдещето.' : 'Premium VR experiences for real estate, design, and retail. Step into the future.'}
+          {t.footer.tagline}
         </p>
       </div>
 
       <!-- Nav -->
       <nav class="flex flex-col gap-3">
-        <p class={`font-onest font-bold text-sm mb-1 ${isDark ? 'text-[#EDF2FF]' : 'text-[#141414]'}`}>{isBg ? 'Навигация' : 'Navigation'}</p>
-        <a href={homeUrl} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{isBg ? 'Начало' : 'Home'}</a>
-        <a href={`${homeUrl}#application`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{isBg ? 'Приложение' : 'Application'}</a>
-        <a href={`${homeUrl}#features`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{isBg ? 'Функции' : 'Features'}</a>
-        <a href={`${homeUrl}#how-it-works`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{isBg ? 'Как работи' : 'How it Works'}</a>
-        <a href={getRelativeLocaleUrl(locale, '/gallery')} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{isBg ? 'Галерия' : 'Gallery'}</a>
+        <p class={`font-onest font-bold text-sm mb-1 ${isDark ? 'text-[#EDF2FF]' : 'text-[#141414]'}`}>{t.footer.nav_heading}</p>
+        <a href={homeUrl} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{t.footer.nav_home}</a>
+        <a href={`${homeUrl}#application`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{t.footer.nav_application}</a>
+        <a href={`${homeUrl}#features`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{t.footer.nav_features}</a>
+        <a href={`${homeUrl}#how-it-works`} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{t.footer.nav_how_it_works}</a>
+        <a href={getRelativeLocaleUrl(locale, '/gallery')} class={`font-onest text-sm transition-colors ${isDark ? 'text-[#CDD4E4] hover:text-white' : 'text-[#4A4F5C] hover:text-[#141414]'}`}>{t.footer.nav_gallery}</a>
       </nav>
     </div>
 
     <!-- Copyright -->
     <div class="pt-6">
       <p class={`font-onest text-xs ${isDark ? 'text-[#CDD4E4]' : 'text-[#4A4F5C]'}`}>
-        {isBg ? '© 2026 STEP IN. Всички права запазени.' : '© 2026 STEP IN. All rights reserved.'}
+        {t.footer.copyright}
       </p>
     </div>
   </div>

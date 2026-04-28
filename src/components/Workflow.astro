@@ -1,56 +1,11 @@
 ---
-import interiorDesignersImg from '../assets/interior-designers.jpg';
-import architectsImg from '../assets/architects.jpg';
-import realEstateBrokersImg from '../assets/real-estate-brokers.jpg';
+import { useTranslations } from '../i18n';
 
 const locale = Astro.currentLocale ?? 'en';
-const isBg = locale === 'bg';
+const t = useTranslations(locale);
 
-const audiences = isBg ? [
-  {
-    id: 'interior-designers',
-    heading: 'Интериорни дизайнери',
-    body: 'Представете палитри от материали, сценарии за осветление и пространствени решения в пълномащабен VR. Нека клиентите усетят пространството преди да е поръчан и един мостер — итерирайте по-бързо и доставяйте с увереност.',
-    image: interiorDesignersImg.src,
-    imageAlt: 'Интериорен дизайнер работи с клиент в VR среда',
-  },
-  {
-    id: 'architects',
-    heading: 'Архитекти',
-    body: 'Комуникирайте обемите, пространствения поток и дизайнерската концепция с изключителна яснота. Разходете заинтересованите страни из визията си в мащаб 1:1 — ускорете одобренията и намалете скъпоструващите ревизии.',
-    image: architectsImg.src,
-    imageAlt: 'Архитект представя VR разходка на сграда',
-  },
-  {
-    id: 'real-estate',
-    heading: 'Брокери на имоти',
-    body: 'Продавайте имоти преди да са построени. Предложете на отдалечени купувачи потапящи обиколки, представете проекти на зелено и се откроявайте на конкурентния пазар с презентации, които затварят сделки.',
-    image: realEstateBrokersImg.src,
-    imageAlt: 'Брокер показва VR обиколка на имот на клиенти',
-  },
-] : [
-  {
-    id: 'interior-designers',
-    heading: 'Interior Designers',
-    body: 'Present material palettes, lighting scenarios, and spatial layouts in full-scale VR. Let clients feel the space before a single swatch is ordered — iterate faster, align expectations, and deliver with confidence.',
-    image: interiorDesignersImg.src,
-    imageAlt: 'Interior designer working with a client in a VR environment',
-  },
-  {
-    id: 'architects',
-    heading: 'Architects',
-    body: 'Communicate massing, spatial flow, and design intent with unmatched clarity. Walk stakeholders through your vision at 1:1 scale — accelerate approvals and reduce costly revisions.',
-    image: architectsImg.src,
-    imageAlt: 'Architect presenting a building walkthrough in VR',
-  },
-  {
-    id: 'real-estate',
-    heading: 'Real Estate Brokers',
-    body: "Sell properties before they're built. Give remote buyers immersive tours, showcase off-plan developments, and stand out in competitive markets with presentations that close.",
-    image: realEstateBrokersImg.src,
-    imageAlt: 'Real estate broker showing a VR property tour to clients',
-  },
-];
+const ids = ['interior-designers', 'architects', 'real-estate'];
+const audiences = t.workflow.audiences.map((a, i) => ({ ...a, id: ids[i] }));
 ---
 
 <section class="py-20 lg:py-28 xl:py-36 2xl:py-44">
@@ -59,10 +14,10 @@ const audiences = isBg ? [
     <div class="mb-10">
       <div class="section-badge w-fit mb-2">
         <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
-        <span>{isBg ? 'ПРИЛОЖЕНИЕ' : 'APPLICATION'}</span>
+        <span>{t.workflow.badge}</span>
       </div>
-      <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] xl:text-[44px] 2xl:text-[52px] mb-3">{isBg ? 'Създадена за вашия процес' : 'Built for your workflow'}</h2>
-      <p class="font-onest text-[#CDD4E4] text-sm max-w-md">{isBg ? 'Вижте как STEP IN се адаптира към специалистите, които имат най-голяма нужда от него.' : 'See how STEP IN APP adapts to the professionals who need it most.'}</p>
+      <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] xl:text-[44px] 2xl:text-[52px] mb-3">{t.workflow.title}</h2>
+      <p class="font-onest text-[#CDD4E4] text-sm max-w-md">{t.workflow.subtitle}</p>
     </div>
 
     <!-- Desktop grid -->
@@ -72,7 +27,7 @@ const audiences = isBg ? [
           <div class="w-full aspect-[4/3] overflow-hidden rounded-[4px]">
             <img
               src={audience.image}
-              alt={audience.imageAlt}
+              alt={audience.image_alt}
               class="w-full h-full object-cover"
               loading="lazy"
             />
@@ -92,7 +47,7 @@ const audiences = isBg ? [
           <div class="w-full aspect-[4/3] overflow-hidden rounded-[4px]">
             <img
               src={audience.image}
-              alt={audience.imageAlt}
+              alt={audience.image_alt}
               class="w-full h-full object-cover"
               loading="lazy"
             />

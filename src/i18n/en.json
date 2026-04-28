@@ -1,0 +1,138 @@
+{
+  "hero": {
+    "badge": "REDEFINE THE WALKTHROUGH",
+    "title_start": "Immersive",
+    "title_highlight": "VR Walkthroughs",
+    "title_end": "for Real Estate & Design",
+    "subtitle": "A B2B platform that transforms 3D models into shareable VR experiences — accelerate your pipeline, impress stakeholders, and close deals with confidence.",
+    "cta_demo": "Request a Demo",
+    "cta_video": "Watch the Experience"
+  },
+  "features": {
+    "badge": "FEATURES",
+    "title": "Our Platform Facilitates",
+    "items": [
+      {
+        "title": "Immersive VR Walkthroughs",
+        "body": "Let clients walk through properties and designs before they're built — full presence, full scale."
+      },
+      {
+        "title": "Link-Based Sharing",
+        "body": "Share a link, open a world. No downloads, no friction — clients explore in one click."
+      },
+      {
+        "title": "3D Format Support",
+        "body": "We work with .FBX, .OBJ, .glTF, Revit, and SketchUp files — bring your workflow as-is."
+      },
+      {
+        "title": "Sales Presentations",
+        "body": "Turn walkthroughs into closing tools — annotate, compare finishes, and get real-time approvals."
+      },
+      {
+        "title": "AR Preview",
+        "body": "Preview furniture and spaces in augmented reality on any smartphone.",
+        "coming_soon_label": "(Coming Soon)"
+      },
+      {
+        "title": "Multi-User Sessions",
+        "body": "Guide clients through spaces together — collaborate remotely in real-time VR."
+      }
+    ]
+  },
+  "workflow": {
+    "badge": "APPLICATION",
+    "title": "Built for your workflow",
+    "subtitle": "See how STEP IN APP adapts to the professionals who need it most.",
+    "audiences": [
+      {
+        "heading": "Interior Designers",
+        "body": "Present material palettes, lighting scenarios, and spatial layouts in full-scale VR. Let clients feel the space before a single swatch is ordered — iterate faster, align expectations, and deliver with confidence.",
+        "image": "/images/interior-designers.jpg",
+        "image_alt": "Interior designer working with a client in a VR environment"
+      },
+      {
+        "heading": "Architects",
+        "body": "Communicate massing, spatial flow, and design intent with unmatched clarity. Walk stakeholders through your vision at 1:1 scale — accelerate approvals and reduce costly revisions.",
+        "image": "/images/architects.jpg",
+        "image_alt": "Architect presenting a building walkthrough in VR"
+      },
+      {
+        "heading": "Real Estate Brokers",
+        "body": "Sell properties before they're built. Give remote buyers immersive tours, showcase off-plan developments, and stand out in competitive markets with presentations that close.",
+        "image": "/images/real-estate-brokers.jpg",
+        "image_alt": "Real estate broker showing a VR property tour to clients"
+      }
+    ]
+  },
+  "what_is_stepin": {
+    "badge": "APPLICATION",
+    "title": "What is STEPIN?",
+    "description": "We specialise in cloud-based VR that transforms your 3D models into immersive, shareable walkthroughs — accessible anywhere. Present, annotate, and get approvals in real-time collaborative sessions, accelerating sales cycles with spatial experiences that build confidence and close deals.",
+    "cards": [
+      {
+        "title": "Purpose-Built",
+        "body": "A cloud-based VR platform for real estate, architecture, and interior design professionals."
+      },
+      {
+        "title": "Models by You",
+        "body": "Upload your 3D models — we turn them into shareable, immersive walkthroughs."
+      },
+      {
+        "title": "Explore in Virtual",
+        "body": "Clients explore projects in VR, AR, or any web browser — no app install required."
+      }
+    ]
+  },
+  "gallery_header": {
+    "gallery_label": "GALLERY",
+    "back_to_main": "Back to main site",
+    "request_session": "Request a Session"
+  },
+  "footer": {
+    "tagline": "Premium VR experiences for real estate, design, and retail. Step into the future.",
+    "copyright": "© 2026 STEP IN. All rights reserved.",
+    "nav_heading": "Navigation",
+    "nav_home": "Home",
+    "nav_application": "Application",
+    "nav_features": "Features",
+    "nav_how_it_works": "How it Works",
+    "nav_gallery": "Gallery",
+    "back_to_main": "Back to main site"
+  },
+  "how_it_works": {
+    "title": "How it Works",
+    "subtitle": "From arrival to immersion, we ensure a seamless transition from the physical to the virtual realm.",
+    "steps": [
+      {
+        "number": "1.",
+        "title": "Upload",
+        "body": "Submit your 3D files and project brief through our platform.",
+        "icon_alt": "3D model file icon"
+      },
+      {
+        "number": "2.",
+        "title": "We Optimize",
+        "body": "Our team prepares and optimizes your scene for peak visual fidelity.",
+        "icon_alt": "Magic wand optimization icon"
+      },
+      {
+        "number": "3.",
+        "title": "Clients Explore",
+        "body": "Share the link — clients explore in VR, AR, or web browser.",
+        "icon_alt": "VR safety goggles icon"
+      }
+    ]
+  },
+  "contact_cta": {
+    "title": "Ready to step in your next project?",
+    "subtitle": "Book an immersive walkthrough session for your team or clients today. Experience the power of spatial design firsthand.",
+    "cta": "Request a Demo",
+    "modal_title": "Request a Demo",
+    "modal_subtitle": "Leave your details and we'll get back to you.",
+    "name_placeholder": "Your name",
+    "email_placeholder": "Your email",
+    "message_placeholder": "Your message",
+    "submit_label": "Send Message",
+    "success_message": "Thank you — we'll be in touch shortly."
+  }
+}

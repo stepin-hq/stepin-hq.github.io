@@ -1,7 +1,8 @@
 ---
 import ContactModal from './ContactModal.astro';
+import { useTranslations } from '../i18n';
 const locale = Astro.currentLocale ?? 'en';
-const isBg = locale === 'bg';
+const t = useTranslations(locale);
 ---
 
 <section id="contact" class="py-20 lg:py-28 xl:py-36 2xl:py-44">
@@ -12,18 +13,16 @@ const isBg = locale === 'bg';
           class="font-onest font-bold text-[#EEF3FF] text-3xl md:text-[44px] xl:text-[54px] 2xl:text-[64px] leading-tight mb-6 tracking-[-1.2px]"
           style="text-shadow: 0px 1px 4px #2c4481;"
         >
-          {isBg ? 'Готови ли сте да влезете в следващия проект?' : 'Ready to step in your next project?'}
+          {t.contact_cta.title}
         </h2>
         <p class="font-onest font-light text-[#CDD4E4] text-xl leading-relaxed mb-8">
-          {isBg
-            ? 'Резервирайте потапяща разходка за вашия екип или клиенти още днес. Преживейте силата на пространствения дизайн от първо лице.'
-            : 'Book an immersive walkthrough session for your team or clients today. Experience the power of spatial design firsthand.'}
+          {t.contact_cta.subtitle}
         </p>
         <button
           class="btn-primary"
           data-open-modal="main-contact-modal"
         >
-          {isBg ? 'Заявете демо' : 'Request a Demo'}
+          {t.contact_cta.cta}
         </button>
       </div>
     </div>
@@ -34,13 +33,11 @@ const isBg = locale === 'bg';
   id="main-contact-modal"
   accessKey="77915ddd-f20d-4462-a66d-95afa009cfb1"
   theme="dark"
-  title={isBg ? 'Заявете демо' : 'Request a Demo'}
-  subtitle={isBg
-    ? 'Оставете вашите данни и ще се свържем с вас.'
-    : "Leave your details and we'll get back to you."}
-  namePlaceholder={isBg ? 'Вашето име' : 'Your name'}
-  emailPlaceholder={isBg ? 'Вашият имейл' : 'Your email'}
-  messagePlaceholder={isBg ? 'Вашето съобщение' : 'Your message'}
-  submitLabel={isBg ? 'Изпратете' : 'Send Message'}
-  successMessage={isBg ? 'Благодарим! Ще се свържем скоро.' : "Thank you \u2014 we'll be in touch shortly."}
+  title={t.contact_cta.modal_title}
+  subtitle={t.contact_cta.modal_subtitle}
+  namePlaceholder={t.contact_cta.name_placeholder}
+  emailPlaceholder={t.contact_cta.email_placeholder}
+  messagePlaceholder={t.contact_cta.message_placeholder}
+  submitLabel={t.contact_cta.submit_label}
+  successMessage={t.contact_cta.success_message}
 />

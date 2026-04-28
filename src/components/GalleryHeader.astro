@@ -1,15 +1,15 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '../i18n';
 
 const locale    = Astro.currentLocale ?? 'en';
-const isBg      = locale === 'bg';
+const t         = useTranslations(locale);
 const rawPath   = Astro.url.pathname;
 const canonPath = rawPath.replace(/^\/bg/, '') || '/';
 const enUrl     = getRelativeLocaleUrl('en', canonPath);
 const bgUrl     = getRelativeLocaleUrl('bg', canonPath);
 const homeUrl   = getRelativeLocaleUrl(locale, '/');
-const modalId   = isBg ? 'gallery-contact-modal-bg' : 'gallery-contact-modal';
-const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
+const modalId   = locale === 'bg' ? 'gallery-contact-modal-bg' : 'gallery-contact-modal';
 ---
 
 <!--
@@ -66,7 +66,7 @@ const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
         </svg>
       </div>
       <span class="gl-gallery-text text-[20px] font-semibold uppercase leading-none" style="font-family: 'Antic Didone', serif; letter-spacing: 0.2em; padding-top: 3px;">
-        GALLERY
+        {t.gallery_header.gallery_label}
       </span>
     </a>
 
@@ -79,7 +79,7 @@ const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0">
           <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
+        {t.gallery_header.back_to_main}
       </a>
 
       <!-- Request a Session — transitions from ghost to yellow -->
@@ -87,7 +87,7 @@ const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
         data-open-modal={modalId}
         class="gl-cta font-onest font-medium text-[14px] leading-5 h-11 px-[22px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-0"
       >
-        {sessionLabel}
+        {t.gallery_header.request_session}
       </button>
 
       <!-- Language switcher -->
@@ -181,14 +181,14 @@ const sessionLabel = isBg ? 'Заявете сесия' : 'Request a Session';
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0">
           <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        {locale === 'bg' ? 'Към основния сайт' : 'Back to main site'}
+        {t.gallery_header.back_to_main}
       </a>
       <div class="w-full pt-1">
         <button
           data-open-modal={modalId}
           class="font-onest font-medium text-sm text-[#141414] bg-[#FFD366] h-11 rounded-full flex items-center justify-center w-full cursor-pointer border-0"
         >
-          {sessionLabel}
+          {t.gallery_header.request_session}
         </button>
       </div>
       <div class="pt-3 pb-1 flex items-center gap-3">

@@ -1,0 +1,148 @@
+---
+interface Props {
+  id: string;
+  /** YouTube video ID — the part after ?v= or /embed/ */
+  videoId: string;
+}
+
+const { id, videoId } = Astro.props;
+---
+
+<div
+  id={id}
+  class="video-modal-backdrop"
+  style="display:none;"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Video player"
+>
+  <button class="video-modal-close" aria-label="Close" data-video-close>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <div class="video-modal-frame" data-video-frame>
+    <iframe
+      id={`${id}-iframe`}
+      class="video-modal-iframe"
+      src=""
+      data-video-src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+      title="Video"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      frameborder="0"
+    ></iframe>
+  </div>
+</div>
+
+<style is:global>
+  .video-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+
+  .video-modal-backdrop.is-open {
+    opacity: 1;
+  }
+
+  .video-modal-frame {
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+
+  .video-modal-backdrop.is-open .video-modal-frame {
+    transform: translateY(0) scale(1);
+  }
+
+  .video-modal-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .video-modal-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+    z-index: 10;
+  }
+
+  .video-modal-close:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+  }
+</style>
+
+<script>
+  function initVideoModals() {
+    document.querySelectorAll<HTMLElement>('.video-modal-backdrop').forEach(backdrop => {
+      const modalId = backdrop.id;
+      const iframe  = backdrop.querySelector<HTMLIFrameElement>('iframe');
+      const videoSrc = iframe?.dataset.videoSrc ?? '';
+      const closeBtn = backdrop.querySelector<HTMLButtonElement>('[data-video-close]');
+
+      function open() {
+        backdrop.style.display = 'flex';
+        void backdrop.offsetWidth;
+        backdrop.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        if (iframe) iframe.src = videoSrc;
+      }
+
+      function close() {
+        backdrop.classList.remove('is-open');
+        document.body.style.overflow = '';
+        if (iframe) iframe.src = '';
+        backdrop.addEventListener('transitionend', () => {
+          if (!backdrop.classList.contains('is-open')) backdrop.style.display = 'none';
+        }, { once: true });
+      }
+
+      // Triggers
+      document.querySelectorAll<HTMLElement>(`[data-open-video="${modalId}"]`).forEach(btn => {
+        btn.addEventListener('click', (e) => { e.preventDefault(); open(); });
+      });
+
+      closeBtn?.addEventListener('click', close);
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && backdrop.classList.contains('is-open')) close();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initVideoModals);
+</script>

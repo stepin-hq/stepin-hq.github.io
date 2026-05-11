@@ -1,0 +1,61 @@
+{
+  "page_title": "Gallery — STEP IN",
+  "hero": {
+    "title": "A Premium Showroom Experience",
+    "body": "Explore curated furniture, walk through spaces in VR, and witness high-impact laser presentations — all under one roof.",
+    "cta_primary": "Request a Session",
+    "cta_secondary": "Explore our Features",
+    "hero_image": "/images/modern-styled-small-entryway.jpg",
+    "watermark": "GALLERY"
+  },
+  "services": {
+    "title": "Our Services",
+    "items": [
+      {
+        "title": "Projection Walkthroughs",
+        "desc": "Walk through projected floor plans at scale. See spatial layouts come alive with high-precision projectors in our showroom studio.",
+        "image": "/images/projection-walkthroughs.jpg"
+      },
+      {
+        "title": "Curated Interior & Furniture",
+        "desc": "Browse a curated catalog of premium furniture — see pieces in context, touch materials, and make confident decisions before you commit.",
+        "image": "/images/curated-interior-and-furniture.jpg"
+      },
+      {
+        "title": "VR Walkthrough Sessions",
+        "desc": "Book a private session in our showroom. Walk through your future space at full scale in immersive VR — feel every detail before it's built.",
+        "image": "/images/vr-walkthrough-sessions.jpg"
+      }
+    ]
+  },
+  "brands": {
+    "title": "Brands We Offer",
+    "subtitle": "We partner with leading manufacturers to bring you the finest in contemporary furniture and interiors.",
+    "items": [
+      {
+        "name": "Sira Cucine",
+        "desc": "The Sira kitchens are part of the daily experience of many families, in Italy and around the world.",
+        "logo": "/images/sira-cucine-logo.jpg"
+      },
+      {
+        "name": "Atelier Nieri",
+        "desc": "Italian family business producing high-end living rooms for over 90 years.",
+        "logo": "/images/atelier-nieri-logo.jpg"
+      }
+    ]
+  },
+  "reserve_cta": {
+    "title": "Reserve your session at the STEP IN Gallery",
+    "body": "Book an immersive walkthrough session for your team or clients today. Experience the power of spatial design firsthand.",
+    "cta": "Request a Session"
+  },
+  "contact_modal": {
+    "title": "Request a Session",
+    "subtitle": "Leave your details and we'll be in touch to confirm your booking.",
+    "name_placeholder": "Your name",
+    "email_placeholder": "Your email",
+    "message_placeholder": "Tell us about your project or any questions you have",
+    "submit_label": "Request a Session",
+    "success_message": "Thank you — we'll confirm your session shortly."
+  }
+}

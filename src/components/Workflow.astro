@@ -1,0 +1,63 @@
+---
+import { useTranslations } from '../i18n';
+
+const locale = Astro.currentLocale ?? 'en';
+const t = useTranslations(locale);
+
+const ids = ['interior-designers', 'architects', 'real-estate'];
+const audiences = t.workflow.audiences.map((a, i) => ({ ...a, id: ids[i] }));
+---
+
+<section class="py-20 lg:py-28 xl:py-36 2xl:py-44">
+  <div class="site-container">
+    <!-- Header -->
+    <div class="mb-10 text-center md:text-left">
+      <div class="section-badge w-fit mb-2 mx-auto md:mx-0">
+        <span class="w-3 h-3 rounded-full bg-[#A2BCFF] shrink-0"></span>
+        <span>{t.workflow.badge}</span>
+      </div>
+      <h2 class="font-onest font-bold text-[#EEF3FF] text-3xl lg:text-[36px] xl:text-[44px] 2xl:text-[52px] mb-3">{t.workflow.title}</h2>
+      <p class="font-onest text-[#CDD4E4] text-sm max-w-md mx-auto md:mx-0">{t.workflow.subtitle}</p>
+    </div>
+
+    <!-- Desktop grid -->
+    <div class="hidden md:grid md:grid-cols-3 gap-12">
+      {audiences.map(audience => (
+        <div class="flex flex-col gap-6">
+          <div class="w-full aspect-[4/3] overflow-hidden rounded-[4px]">
+            <img
+              src={audience.image}
+              alt={audience.image_alt}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="flex flex-col gap-3">
+            <h3 class="font-onest font-bold text-[#A2BCFF] text-2xl">{audience.heading}</h3>
+            <p class="font-onest text-[#CDD4E4] text-base leading-relaxed">{audience.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Mobile: stacked -->
+    <div class="md:hidden flex flex-col gap-10">
+      {audiences.map(audience => (
+        <div class="flex flex-col gap-5">
+          <div class="w-full aspect-[4/3] overflow-hidden rounded-[4px]">
+            <img
+              src={audience.image}
+              alt={audience.image_alt}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="font-onest font-bold text-[#A2BCFF] text-[22px]">{audience.heading}</h3>
+            <p class="font-onest text-[#CDD4E4] text-base leading-relaxed">{audience.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  theme?: 'dark' | 'light' | 'gallery' | 'gray';
+  noIntro?: boolean;
+}
+
+const {
+  title,
+  description = 'Immersive VR Walkthroughs for Real Estate & Design — STEP IN',
+  theme = 'dark',
+  noIntro = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antic+Didone&family=Cormorant+Garamond:wght@300;400;500;600&subset=cyrillic&family=Onest:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <ViewTransitions />
+    <!-- Runs synchronously before paint: marks first-ever load so the intro
+         animation only plays once per browser session. -->
+    {!noIntro && (
+      <script is:inline>
+        if (!sessionStorage.getItem('stepin-intro-played')) {
+          document.documentElement.classList.add('intro-playing');
+        }
+      </script>
+    )}
+    <script>
+      // Before each View Transitions swap: patch the incoming document before paint
+      // so there are no dark flashes on repeat/language-switch loads.
+      document.addEventListener('astro:before-swap', (e) => {
+        if (!sessionStorage.getItem('stepin-intro-played')) return;
+        const newDoc = (e as any).newDocument as Document;
+
+        // ── Gallery page patches ─────────────────────────────────────────────
+        const header = newDoc.getElementById('gallery-header');
+        if (header) header.classList.add('is-light');
+        newDoc.documentElement.classList.add('gl-repeat-load');
+        newDoc.documentElement.classList.add('gl-is-light');
+        newDoc.querySelectorAll('.gl-heading, .gl-body, .gl-outline-btn').forEach(el => {
+          (el as HTMLElement).classList.add('is-light');
+        });
+
+        // ── Main page (gray theme) patches ──────────────────────────────────
+        // Remove the intro overlay before paint so there's no dark flash
+        newDoc.getElementById('gi-intro-layer')?.remove();
+        newDoc.getElementById('gi-defs')?.remove();
+        // Ensure hero content is visible immediately
+        newDoc.querySelectorAll<HTMLElement>('.hero-content').forEach(el => {
+          el.style.opacity = '1';
+        });
+      });
+    </script>
+  </head>
+  <body
+    class={theme === 'dark' ? 'bg-[#0A0A0A] text-[#EDEDED]' : theme === 'gallery' ? 'bg-[#FEFAEF] text-[#141414]' : theme === 'gray' ? 'bg-[#242424] text-[#EDEDED]' : 'bg-[#F4F5F7] text-[#141414]'}
+    data-theme={theme}
+  >
+    <slot />
+  </body>
+</html>

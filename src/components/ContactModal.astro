@@ -1,0 +1,412 @@
+---
+interface Props {
+  id: string;
+  accessKey: string;
+  theme?: 'dark' | 'light';
+  title: string;
+  titleFontFamily?: string;
+  subtitle?: string;
+  namePlaceholder?: string;
+  emailPlaceholder?: string;
+  messagePlaceholder?: string;
+  submitLabel?: string;
+  successMessage?: string;
+}
+
+const {
+  id,
+  accessKey,
+  theme = 'dark',
+  title,
+  titleFontFamily,
+  subtitle,
+  namePlaceholder = 'Your name',
+  emailPlaceholder = 'Your email',
+  messagePlaceholder = 'Your message',
+  submitLabel = 'Send Message',
+  successMessage = "Thank you — we'll be in touch shortly.",
+} = Astro.props;
+
+const isDark = theme === 'dark';
+---
+
+<!-- Modal backdrop -->
+<div
+  id={id}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={`${id}-title`}
+  class="contact-modal-backdrop"
+  style="display:none;"
+>
+  <!-- Card -->
+  <div
+    class="contact-modal-card"
+    class:list={[isDark ? 'contact-modal-card--dark' : 'contact-modal-card--light']}
+    data-modal-card
+  >
+    <!-- Close button -->
+    <button
+      class="contact-modal-close"
+      class:list={[isDark ? 'contact-modal-close--dark' : 'contact-modal-close--light']}
+      aria-label="Close"
+      data-modal-close
+    >
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Heading -->
+    <h2
+      id={`${id}-title`}
+      class="contact-modal-title"
+      class:list={[isDark ? 'contact-modal-title--dark' : 'contact-modal-title--light', titleFontFamily ? '' : 'font-onest font-bold']}
+      style={titleFontFamily ? `font-family: '${titleFontFamily}', serif; font-weight: 400;` : undefined}
+    >
+      {title}
+    </h2>
+
+    {subtitle && (
+      <p
+        class="contact-modal-subtitle font-onest font-light"
+        class:list={[isDark ? 'contact-modal-subtitle--dark' : 'contact-modal-subtitle--light']}
+      >
+        {subtitle}
+      </p>
+    )}
+
+    <!-- Form -->
+    <form class="contact-modal-form" data-modal-form data-access-key={accessKey} novalidate>
+      <div class="contact-modal-fields">
+        <div class="contact-modal-field">
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder={namePlaceholder}
+            autocomplete="name"
+            class="contact-modal-input"
+            class:list={[isDark ? 'contact-modal-input--dark' : 'contact-modal-input--light']}
+          />
+        </div>
+        <div class="contact-modal-field">
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder={emailPlaceholder}
+            autocomplete="email"
+            class="contact-modal-input"
+            class:list={[isDark ? 'contact-modal-input--dark' : 'contact-modal-input--light']}
+          />
+        </div>
+        <div class="contact-modal-field">
+          <textarea
+            name="message"
+            required
+            placeholder={messagePlaceholder}
+            rows="4"
+            class="contact-modal-input contact-modal-textarea"
+            class:list={[isDark ? 'contact-modal-input--dark' : 'contact-modal-input--light']}
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Status message (hidden until submit) -->
+      <p class="contact-modal-status" data-modal-status aria-live="polite" style="display:none;"></p>
+
+      <button
+        type="submit"
+        class="contact-modal-submit font-onest font-medium"
+        class:list={[isDark ? 'contact-modal-submit--dark' : 'contact-modal-submit--light']}
+        data-modal-submit
+        data-success-msg={successMessage}
+      >
+        {submitLabel}
+      </button>
+    </form>
+  </div>
+</div>
+
+<style is:global>
+  /* ── Backdrop ───────────────────────────────────────────────────────────── */
+  .contact-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(8, 8, 8, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .contact-modal-backdrop.is-open {
+    opacity: 1;
+  }
+
+  /* ── Card ───────────────────────────────────────────────────────────────── */
+  .contact-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 6px;
+    padding: 2.5rem;
+    transform: translateY(16px) scale(0.98);
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact-modal-backdrop.is-open .contact-modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .contact-modal-card--dark  { background: #191C22; }
+  .contact-modal-card--light { background: #faf9ee; box-shadow: 0 8px 40px rgba(46,37,31,0.14); }
+
+  /* ── Close button ───────────────────────────────────────────────────────── */
+  .contact-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+
+  .contact-modal-close--dark {
+    background: rgba(255,255,255,0.06);
+    color: rgba(237,237,237,0.55);
+  }
+  .contact-modal-close--dark:hover {
+    background: rgba(255,255,255,0.12);
+    color: #ededed;
+  }
+
+  .contact-modal-close--light {
+    background: rgba(46,37,31,0.06);
+    color: rgba(46,37,31,0.45);
+  }
+  .contact-modal-close--light:hover {
+    background: rgba(46,37,31,0.12);
+    color: #2e251f;
+  }
+
+  /* ── Title ──────────────────────────────────────────────────────────────── */
+  .contact-modal-title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .contact-modal-title--dark  { color: #EEF3FF; }
+  .contact-modal-title--light { color: #2e251f; }
+
+  /* ── Subtitle ───────────────────────────────────────────────────────────── */
+  .contact-modal-subtitle {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin-bottom: 1.75rem;
+  }
+
+  .contact-modal-subtitle--dark  { color: #9aa3b8; }
+  .contact-modal-subtitle--light { color: #817065; }
+
+  /* ── Fields ─────────────────────────────────────────────────────────────── */
+  .contact-modal-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Input / Textarea ───────────────────────────────────────────────────── */
+  .contact-modal-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 160ms ease, background 160ms ease;
+    resize: none;
+  }
+
+  .contact-modal-input--dark {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    color: #EEF3FF;
+  }
+  .contact-modal-input--dark::placeholder { color: rgba(205,212,228,0.45); }
+  .contact-modal-input--dark:focus {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(162,188,255,0.5);
+  }
+
+  .contact-modal-input--light {
+    background: #fff;
+    border-color: rgba(46,37,31,0.15);
+    color: #2e251f;
+  }
+  .contact-modal-input--light::placeholder { color: rgba(129,112,101,0.6); }
+  .contact-modal-input--light:focus {
+    border-color: rgba(46,37,31,0.4);
+  }
+
+  .contact-modal-textarea { min-height: 100px; }
+
+  /* ── Status line ────────────────────────────────────────────────────────── */
+  .contact-modal-status {
+    font-family: 'Onest', sans-serif;
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Submit button ──────────────────────────────────────────────────────── */
+  .contact-modal-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: opacity 160ms ease, transform 120ms ease;
+  }
+
+  .contact-modal-submit:hover  { opacity: 0.88; }
+  .contact-modal-submit:active { transform: scale(0.98); }
+  .contact-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .contact-modal-submit--dark {
+    background: #ffffff;
+    color: #141414;
+  }
+
+  .contact-modal-submit--light {
+    background: #FFD366;
+    color: #141414;
+  }
+</style>
+
+<script>
+  function initModal(backdropEl: HTMLElement) {
+    const card        = backdropEl.querySelector<HTMLElement>('[data-modal-card]');
+    const closeBtn    = backdropEl.querySelector<HTMLButtonElement>('[data-modal-close]');
+    const form        = backdropEl.querySelector<HTMLFormElement>('[data-modal-form]');
+    const statusEl    = backdropEl.querySelector<HTMLElement>('[data-modal-status]');
+    const submitBtn   = backdropEl.querySelector<HTMLButtonElement>('[data-modal-submit]');
+    const accessKey   = form?.dataset.accessKey ?? '';
+    const successMsg  = submitBtn?.dataset.successMsg ?? 'Thank you!';
+
+    function open() {
+      backdropEl.style.display = 'flex';
+      // Force reflow so transition fires
+      void backdropEl.offsetWidth;
+      backdropEl.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      // Focus first input
+      const first = form?.querySelector<HTMLElement>('input, textarea');
+      first?.focus();
+    }
+
+    function close() {
+      backdropEl.classList.remove('is-open');
+      document.body.style.overflow = '';
+      backdropEl.addEventListener('transitionend', () => {
+        if (!backdropEl.classList.contains('is-open')) {
+          backdropEl.style.display = 'none';
+        }
+      }, { once: true });
+    }
+
+    // Wire up triggers — any element with matching data-open-modal
+    const modalId = backdropEl.id;
+    document.querySelectorAll<HTMLElement>(`[data-open-modal="${modalId}"]`).forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        open();
+      });
+    });
+
+    closeBtn?.addEventListener('click', close);
+
+    // Close on backdrop click (not card click)
+    backdropEl.addEventListener('click', (e) => {
+      if (e.target === backdropEl) close();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdropEl.classList.contains('is-open')) close();
+    });
+
+    // Form submission
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || !statusEl) return;
+
+      submitBtn.disabled = true;
+      const originalLabel = submitBtn.textContent?.trim() ?? 'Send Message';
+      submitBtn.textContent = '...';
+
+      if (statusEl) {
+        statusEl.style.display = 'none';
+        statusEl.textContent = '';
+      }
+
+      try {
+        const formData = new FormData(form);
+        formData.append('access_key', accessKey);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          if (statusEl) {
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#4ade80';
+            statusEl.textContent = successMsg;
+          }
+          form.reset();
+          submitBtn.textContent = originalLabel;
+          submitBtn.disabled = false;
+        } else {
+          throw new Error(data.message ?? 'Submission failed');
+        }
+      } catch {
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#f87171';
+          statusEl.textContent = 'Something went wrong — please try again.';
+        }
+        submitBtn.textContent = originalLabel;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  function setupModals() {
+    document.querySelectorAll<HTMLElement>('.contact-modal-backdrop').forEach(initModal);
+  }
+
+  document.addEventListener('astro:page-load', setupModals);
+</script>

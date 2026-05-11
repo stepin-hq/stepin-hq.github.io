@@ -1,0 +1,10 @@
+backend:
+  name: github
+  repo: stepin-hq/stepin-hq.github.io
+  branch: main
+  base_url: https://decap-proxy.stepin-decap-cms.workers.dev
+  auth_endpoint: /auth
+
+locale: en
+media_folder: public/images
+public_folder: /images

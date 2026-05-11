@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryPage from '../../components/GalleryPage.astro';
+import { useTranslations } from '../../i18n';
+
+const t = useTranslations('bg');
+---
+<BaseLayout title={t.gallery.page_title} theme="gallery">
+  <GalleryPage />
+</BaseLayout>

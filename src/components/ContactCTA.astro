@@ -1,0 +1,43 @@
+---
+import ContactModal from './ContactModal.astro';
+import { useTranslations } from '../i18n';
+const locale = Astro.currentLocale ?? 'en';
+const t = useTranslations(locale);
+---
+
+<section id="contact" class="py-20 lg:py-28 xl:py-36 2xl:py-44">
+  <div class="site-container">
+    <div class="bg-[#313336] rounded-[4px] p-8 md:p-12 lg:p-16">
+      <div class="max-w-[672px]">
+        <h2
+          class="font-onest font-bold text-[#EEF3FF] text-3xl md:text-[44px] xl:text-[54px] 2xl:text-[64px] leading-tight mb-6 tracking-[-1.2px]"
+          style="text-shadow: 0px 1px 4px #2c4481;"
+        >
+          {t.contact_cta.title}
+        </h2>
+        <p class="font-onest font-light text-[#CDD4E4] text-xl leading-relaxed mb-8">
+          {t.contact_cta.subtitle}
+        </p>
+        <button
+          class="btn-primary"
+          data-open-modal="main-contact-modal"
+        >
+          {t.contact_cta.cta}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ContactModal
+  id="main-contact-modal"
+  accessKey="77915ddd-f20d-4462-a66d-95afa009cfb1"
+  theme="dark"
+  title={t.contact_cta.modal_title}
+  subtitle={t.contact_cta.modal_subtitle}
+  namePlaceholder={t.contact_cta.name_placeholder}
+  emailPlaceholder={t.contact_cta.email_placeholder}
+  messagePlaceholder={t.contact_cta.message_placeholder}
+  submitLabel={t.contact_cta.submit_label}
+  successMessage={t.contact_cta.success_message}
+/>

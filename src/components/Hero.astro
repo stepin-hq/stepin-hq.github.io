@@ -64,22 +64,6 @@ const showVideo = t.hero.video_enabled && videoId;
 {showVideo && <VideoModal id="hero-video-modal" videoId={videoId} />}
 
 <style>
-  /* ── Hero content ────────────────────────────────────────────────────────── */
-  .hero-content.is-visible {
-    animation: contentReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes contentReveal {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   /* ── Grid host ──────────────────────────────────────────────────────────── */
   .grid-host {
     position: absolute;
@@ -162,6 +146,10 @@ const showVideo = t.hero.video_enabled && videoId;
 <script>
   const GRID_DURATION_MS = 5000;
 
+  // Guard against double-init: both DOMContentLoaded and astro:page-load fire
+  // on the first page load, which would reset the animation and start two timers.
+  let introStarted = false;
+
   function init() {
     const html    = document.documentElement;
     const plane   = document.querySelector<HTMLElement>('.grid-plane');
@@ -169,14 +157,15 @@ const showVideo = t.hero.video_enabled && videoId;
 
     if (!plane || !content) return;
 
-    // ── Not a first load — skip everything, show immediately ─────────────────
+    // Not a first load — nothing to do, content is already visible via CSS default
     if (!html.classList.contains('intro-playing')) {
       return;
     }
 
-    // ── First load — play the intro ──────────────────────────────────────────
+    if (introStarted) return;
+    introStarted = true;
 
-    // Mark as played so refreshes and navigation skip it from now on
+    // Mark as played so refreshes and navigation skip the intro
     sessionStorage.setItem('stepin-intro-played', '1');
 
     // Lock scroll for the duration
@@ -187,12 +176,33 @@ const showVideo = t.hero.video_enabled && videoId;
     void plane.offsetWidth; // force reflow
     plane.classList.add('is-animating');
 
-    // After animation: unlock, reveal content + header
     setTimeout(() => {
       document.documentElement.style.overflow = '';
-      html.classList.remove('intro-playing'); // CSS restores header opacity
+      html.classList.remove('intro-playing');
 
-      content.classList.add('is-visible');
+      // Use inline-style transitions instead of a CSS @keyframes animation.
+      // CSS keyframe animations triggered by a class change in the same task as
+      // removing the hiding rule are unreliable on iOS Safari (fill-mode bugs).
+      content.style.opacity = '0';
+      content.style.transform = 'translateY(12px)';
+
+      // Force the browser to commit the starting state before the transition
+      void content.offsetHeight;
+
+      content.style.transition =
+        'opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)';
+      content.style.opacity = '1';
+      content.style.transform = 'translateY(0)';
+
+      // Clean up inline styles once the transition finishes
+      const cleanup = () => {
+        content.style.transition = '';
+        content.style.opacity   = '';
+        content.style.transform = '';
+      };
+      content.addEventListener('transitionend', cleanup, { once: true });
+      // Safety fallback if transitionend never fires (e.g. display:none during anim)
+      setTimeout(cleanup, 1100);
     }, GRID_DURATION_MS);
   }
 

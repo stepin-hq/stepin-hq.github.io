@@ -64,7 +64,7 @@ const {
         // ── Main page (gray theme) patches ──────────────────────────────────
         // Remove the intro overlay before paint so there's no dark flash
         newDoc.getElementById('gi-intro-layer')?.remove();
-        newDoc.getElementById('gi-defs')?.remove();
+        newDoc.getElementById('gi-grid-host')?.remove();
         // Ensure hero content is visible immediately
         newDoc.querySelectorAll<HTMLElement>('.hero-content').forEach(el => {
           el.style.opacity = '1';

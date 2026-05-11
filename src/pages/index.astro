@@ -19,8 +19,11 @@ import Footer from '../components/Footer.astro';
     }
   </script>
 
-  <!-- SVG defs only — invisible, just provides the mask definition -->
-  <svg id="gi-defs" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
+  <!-- SVG intro overlay — mask applied as SVG attribute (not CSS mask property) for iOS Safari.
+       CSS mask:url(#id) on HTML elements is unreliable on WebKit; SVG mask="" attribute is not. -->
+  <svg id="gi-intro-layer" aria-hidden="true"
+       xmlns="http://www.w3.org/2000/svg"
+       style="position:fixed;inset:0;z-index:200;pointer-events:none;overflow:visible;width:100%;height:100%">
     <defs>
       <mask id="gi-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="9999" height="9999">
         <rect width="9999" height="9999" fill="white"/>
@@ -29,20 +32,16 @@ import Footer from '../components/Footer.astro';
         </g>
       </mask>
     </defs>
+    <rect x="0" y="0" width="9999" height="9999" fill="#080808" mask="url(#gi-mask)"/>
   </svg>
 
-  <!-- Intro layer: dark bg + grid — both clipped to the area OUTSIDE the headset hole -->
-  <div id="gi-intro-layer"
-       style="position:fixed;inset:0;z-index:200;pointer-events:none;mask:url(#gi-mask);">
-    <!-- Dark background -->
-    <div style="position:absolute;inset:0;background:#080808;"></div>
-    <!-- Perspective grid -->
-    <div id="gi-grid-host" aria-hidden="true" style="position:absolute;inset:0;">
-      <div class="gi-grid-stage">
-        <div id="gi-grid-plane" class="gi-grid-plane"></div>
-      </div>
-      <div class="gi-grid-fade"></div>
+  <!-- Grid: sibling of the SVG overlay; fades out before the headset starts expanding -->
+  <div id="gi-grid-host" aria-hidden="true"
+       style="position:fixed;inset:0;z-index:200;pointer-events:none;">
+    <div class="gi-grid-stage">
+      <div id="gi-grid-plane" class="gi-grid-plane"></div>
     </div>
+    <div class="gi-grid-fade"></div>
   </div>
 
   <Header theme="dark" />
@@ -67,6 +66,7 @@ import Footer from '../components/Footer.astro';
 
   /* ── Skip-intro: hide overlay synchronously on hard refresh (repeat load) ── */
   html.gi-skip-intro #gi-intro-layer { display: none !important; }
+  html.gi-skip-intro #gi-grid-host   { display: none !important; }
   html.gi-skip-intro .hero-content   { opacity: 1 !important; }
 
   /* ── Intro grid ──────────────────────────────────────────────────────────── */
@@ -123,12 +123,12 @@ import Footer from '../components/Footer.astro';
     // Skip on language switches and back-navigation — intro already played
     if (sessionStorage.getItem('stepin-intro-played')) {
       introLayer?.remove();
-      document.getElementById('gi-defs')?.remove();
+      document.getElementById('gi-grid-host')?.remove();
       if (content) content.style.opacity = '1';
       return;
     }
 
-    const hole      = document.getElementById('gi-hole') as SVGGElement | null;
+    const hole      = document.getElementById('gi-hole') as Element | null;
     const gridHost  = document.getElementById('gi-grid-host') as HTMLElement | null;
     const gridPlane = document.getElementById('gi-grid-plane') as HTMLElement | null;
 
@@ -199,7 +199,7 @@ import Footer from '../components/Footer.astro';
           if (content) content.style.opacity = '1';
           sessionStorage.setItem('stepin-intro-played', '1');
           introLayer!.remove();
-          document.getElementById('gi-defs')?.remove();
+          document.getElementById('gi-grid-host')?.remove();
           return;
         }
 
